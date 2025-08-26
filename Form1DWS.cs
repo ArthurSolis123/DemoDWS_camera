@@ -613,6 +613,9 @@ namespace DemoDWS
                 CodeTimeStamp = 0
             };
 
+
+
+
             Console.WriteLine($"[RealImage] Sending image from camera '{pkg.CameraID}' to display components");
 
             foreach (var comp in m_ComponentList)
