@@ -38,7 +38,7 @@ using System.Net.Sockets;
 
 namespace DemoDWS
 {
-    
+
     public partial class Form1DWS : Form
     {
         private UdpBroadcaster udpBroadcaster;
@@ -90,7 +90,7 @@ namespace DemoDWS
         private string _leftKeyToken, _rightKeyToken;
 
         private int CodeHoldSeconds = 5;
-        private bool ShowNoRead = true;
+        // private bool ShowNoRead = true;
 
 
         private System.Windows.Forms.Timer _codeHoldTimerLeft;
@@ -102,7 +102,7 @@ namespace DemoDWS
 
         public Form1DWS()
         {
-            
+
             InitializeComponent();
 
 
@@ -136,7 +136,7 @@ namespace DemoDWS
             m_ComponentList.Add(m_imageDisplayArea);
             m_ComponentList.Add(m_imageSaver);
 
-            udpBroadcaster = new UdpBroadcaster("255.255.255.255", 9000);
+            udpBroadcaster = new UdpBroadcaster("192.168.18.255", 9000);
         }
 
 
@@ -145,7 +145,7 @@ namespace DemoDWS
         /// </summary>
         private void getAllCameraInfos()
         {
-            
+
             LogHelper.Log.InfoFormat("[getAllCameraInfos]start getAllCameraInfos");
 
             var cameraInfoList = dwsManager.GetWorkCameraInfo();
@@ -260,7 +260,7 @@ namespace DemoDWS
             }
         }
         private long _pkgCount = 0;
-        private long _pkgImgCount = 0;
+        //private long _pkgImgCount = 0;
         /// <summary>
         /// Specific methods for receiving package information reported by DWS
         /// </summary>

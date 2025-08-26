@@ -175,17 +175,19 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(0, 40);
 			this.label2.TabIndex = 10;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.label2.UseMnemonic = false;
 			// 
 			// groupBox5
 			// 
+			this.groupBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.groupBox5.Controls.Add(this.lblCode);
 			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox5.Font = new System.Drawing.Font("SimSun", 18F);
-			this.groupBox5.Location = new System.Drawing.Point(6, 6);
-			this.groupBox5.Margin = new System.Windows.Forms.Padding(6);
+			this.groupBox5.Location = new System.Drawing.Point(10, 10);
+			this.groupBox5.Margin = new System.Windows.Forms.Padding(10);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(647, 111);
+			this.groupBox5.Size = new System.Drawing.Size(639, 103);
 			this.groupBox5.TabIndex = 17;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Camera 1";
@@ -200,6 +202,7 @@
 			this.lblCode.Name = "lblCode";
 			this.lblCode.Size = new System.Drawing.Size(0, 40);
 			this.lblCode.TabIndex = 10;
+			this.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblCode.UseMnemonic = false;
 			this.lblCode.Click += new System.EventHandler(this.lblCode_Click);
 			// 

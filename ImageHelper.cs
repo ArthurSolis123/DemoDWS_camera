@@ -28,8 +28,7 @@ namespace DemoDWS
             }
 
             var type = (LogisticsAPIStruct.EImageType)imageInfo.Type;
-            try
-            {
+            
                 switch (type)
                 {
                     case LogisticsAPIStruct.EImageType.eImageTypeNormal:
@@ -88,11 +87,8 @@ namespace DemoDWS
                     default:
                         break;
                 }
-            }
-            catch (Exception ex)
-            {
-                // exception 
-            }
+            
+
 
             return null;
         }
