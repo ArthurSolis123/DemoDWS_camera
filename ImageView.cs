@@ -121,6 +121,32 @@ namespace DemoDWS
             frameInfo.frame = new VideoFrame();
             frameInfo.rawImage = image;
 
+            //Console.WriteLine($"[OVERLAY DEBUG] Creating overlays for {cameraId}:");
+            //Console.WriteLine($"  - AreaList count: {areaList?.Count ?? 0}");
+            if (areaList != null)
+            {
+                for (int i = 0; i < areaList.Count; i++)
+                {
+                    var area = areaList[i];
+                    //Console.WriteLine($"  - Area {i}: {area?.Length ?? 0} points");
+                    if (area != null && area.Length > 0)
+                    {
+                        //Console.WriteLine($"    First point: ({area[0].X}, {area[0].Y})");
+                        //Console.WriteLine($"    Last point: ({area[area.Length - 1].X}, {area[area.Length - 1].Y})");
+                    }
+
+                    var ov = new VideoFrame.OverlayPolygon();
+                    ov.Points.AddRange(area);
+                    frameInfo.frame.Overlays.Add(ov);
+                }
+                //Console.WriteLine($"  - Total overlays created: {frameInfo.frame.Overlays.Count}");
+            }
+            else
+            {
+                //Console.WriteLine("  - No area list provided for overlay creation");
+            }
+
+
             if (areaList != null)
             {
                 foreach (var area in areaList)

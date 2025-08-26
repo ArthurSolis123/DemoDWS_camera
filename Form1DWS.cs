@@ -235,7 +235,7 @@ namespace DemoDWS
         private void PackageInfoCallBack(object o, LogisticsCodeEventArgs e)
         {
             var n1 = Interlocked.Increment(ref _pkgCount);
-            Console.WriteLine($"[PackageInfo] {DateTime.Now:HH:mm:ss.fff} got package result #{n1}");
+            //Console.WriteLine($"[PackageInfo] {DateTime.Now:HH:mm:ss.fff} got package result #{n1}");
             try
             {
                 VolumeInfo vv = new VolumeInfo
@@ -278,43 +278,21 @@ namespace DemoDWS
                         WeightTimeStamp = e.WeightData.weightTimeStamp
                     },
                 };
-                // --- DEBUG: confirm images arrived ---
-                try
+
+                // Simple barcode detection check
+                string codes = string.Join(",", info.CodeList ?? new List<string>());
+                if (codes != "noread" && !string.IsNullOrEmpty(codes))
                 {
-                    if (info.OriImage != null || info.WayImage != null)
-                    {
-                        var n = System.Threading.Interlocked.Increment(ref _pkgImgCount);
-
-                        string ori = (info.OriImage == null)
-                            ? "null"
-                            : $"{info.OriImage.Width}x{info.OriImage.Height} type={info.OriImage.Type} bytes={info.OriImage.DataSize}";
-                        string way = (info.WayImage == null)
-                            ? "null"
-                            : $"{info.WayImage.Width}x{info.WayImage.Height} type={info.WayImage.Type} bytes={info.WayImage.DataSize}";
-
-                        //Console.WriteLine($"[IMG #{n}] cam='{info.CameraID}'  OriImage={ori}  WaybillImage={way}");
-                    }
-                    else
-                    {
-                        //Console.WriteLine("[IMG] no image objects attached on this package.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("[IMG] logging error: " + ex.Message);
-                }
-                // --- end DEBUG ---
-
-
-                string codes = string.Join("_", e.CodeList);
-
-                if (e.OutputResult == 0)
-                {
-                    LogHelper.Log.InfoFormat("Callback gets package information (barcode only) {0}", codes);
+                    Console.WriteLine($"===== BARCODE DETECTED from {info.CameraID} =====");
+                    Console.WriteLine($"Codes: {codes}");
                 }
                 else
                 {
-                    LogHelper.Log.InfoFormat("Callback to get package information (barcode weight and volume) {0}", codes);
+                    // Only print occasionally to avoid spam
+                    if (_pkgCount % 10 == 0)
+                    {
+                        Console.WriteLine($"NOT DETECTED (attempt #{_pkgCount})");
+                    }
                 }
 
                 lock (packageItems)
@@ -394,11 +372,15 @@ namespace DemoDWS
                     }
                     else if (e.OutputResult == 1)
                     {
+                        // Console.WriteLine($"[UI DEBUG] Updating labels with:");
+                        //Console.WriteLine($"  - Barcode text: '{codeJoint}'");
+                        //Console.WriteLine($"  - Code count: {e.CodeList.Count}");
                         //Display barcode information
                         this.BeginInvoke(new Action(() =>
                         {
                             lblCode.Text = string.Format("Barcode content： {0}", codeJoint);
                             lblCodeCount.Text = string.Format("Number of barcodes: {0} Weight: {1} g Length: {2} mm Width: {3} mm Height: {4} mm, Volume: {5} mm3", e.CodeList.Count, e.Weight, e.VolumeInfo.Length, e.VolumeInfo.Width, e.VolumeInfo.Height, e.VolumeInfo.Volume);
+                            //Console.WriteLine($"[UI DEBUG] Labels updated successfully");
                         }));
 
                         foreach (var comp in m_ComponentList)

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-			
 			this.components = new System.ComponentModel.Container();
 			this.lblCodeCount = new System.Windows.Forms.Label();
 			this.btnClose = new System.Windows.Forms.Button();
@@ -55,7 +54,7 @@
 			this.lblCodeCount.ForeColor = System.Drawing.Color.Red;
 			this.lblCodeCount.Location = new System.Drawing.Point(6, 68);
 			this.lblCodeCount.Name = "lblCodeCount";
-			this.lblCodeCount.Size = new System.Drawing.Size(72, 16);
+			this.lblCodeCount.Size = new System.Drawing.Size(152, 16);
 			this.lblCodeCount.TabIndex = 14;
 			this.lblCodeCount.Text = "Number of barcodes";
 			// 
@@ -77,7 +76,7 @@
 			this.lblCode.ForeColor = System.Drawing.Color.Red;
 			this.lblCode.Location = new System.Drawing.Point(6, 34);
 			this.lblCode.Name = "lblCode";
-			this.lblCode.Size = new System.Drawing.Size(72, 16);
+			this.lblCode.Size = new System.Drawing.Size(128, 16);
 			this.lblCode.TabIndex = 11;
 			this.lblCode.Text = "Barcode content";
 			this.lblCode.Click += new System.EventHandler(this.lblCode_Click);
@@ -131,7 +130,7 @@
 			// 
 			// listBoxLog
 			// 
-			this.listBoxLog.BackColor = System.Drawing.SystemColors.AppWorkspace;
+			this.listBoxLog.BackColor = System.Drawing.SystemColors.Control;
 			this.listBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listBoxLog.ForeColor = System.Drawing.Color.Blue;
 			this.listBoxLog.FormattingEnabled = true;
@@ -181,7 +180,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(1350, 811);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.Pan_Dis);

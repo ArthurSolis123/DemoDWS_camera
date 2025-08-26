@@ -49,8 +49,10 @@ namespace DemoDWS
                 g.DrawImage(Image, new Rectangle(loc, targetSize), new Rectangle(Point.Empty, Image.Size), GraphicsUnit.Pixel);
 
                 // draw overlays
+                //Console.WriteLine($"[PAINT DEBUG] Drawing {this.Overlays.Count} overlays");
                 foreach (var ov in this.Overlays)
                 {
+                    //  Console.WriteLine($"  - Drawing overlay with {(ov as VideoFrame.OverlayPolygon)?.Points.Count ?? 0} points");
                     ov.Paint(g, loc, rate);
                 }
             }

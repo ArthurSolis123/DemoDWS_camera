@@ -110,34 +110,34 @@ namespace DemoDWS
     public class BaseCodeData
     {
         /// <summary>
-        /// 值为0，表示上报包裹的条码信息；值为1，表示上报包裹的条码、重量、体积信息
-        /// 一个包裹，先上报包裹的条码信息，再上报绑定后包裹的条码、重量、体积信息
+        /// The value is 0, which indicates the barcode information of the package; the value is 1, which indicates the barcode, weight and volume information of the package.
+        ///For a package, first report the barcode information of the package, and then report the barcode, weight and volume information of the bound package.
         /// </summary>
         public int OutputResult { get; set; }
 
         /// <summary>
-        /// 包裹的原图
+        /// Original image of the package
         /// </summary>
         public RawImage OriImage { get; set; }
 
         /// <summary>
-        /// 包裹的面单抠图
+        /// Package pastry cutout
         /// </summary>
         public RawImage WayImage { get; set; }
 
         /// <summary>
-        /// 包裹的条码列表，如果没有读到条码那列表中就一个元素，值为 noread
+        /// The barcode list of packages. If the barcode is not read, there is only one element in the list, and the value is noread
         /// </summary>
         public List<string> CodeList { get; set; }
 
         /// <summary>
-        /// 包裹条码点坐标数组的列表，用于将图片中的条码用画框圈出来
-        /// 一个条码的点坐标数组包含五个点坐标，其中有两个点是一样的，便于用直线画出一个完整的框
+        /// A list of arrays of barcode points coordinates to circle the barcodes in the picture with a picture frame
+        ///A barcode point coordinate array contains five point coordinates, two of which are the same, making it easier to draw a complete box with a straight line
         /// </summary>
         public List<Point[]> AreaList { get; set; }
 
         /// <summary>
-        /// 相机序列号
+        /// Camera serial number
         /// </summary>
         public string CameraID { get; set; }
 
