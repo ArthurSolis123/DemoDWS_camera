@@ -1,0 +1,27 @@
+# Build & IDE
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+*.vcxproj.user
+*.cache
+*.log
+
+# NuGet & test
+packages/
+TestResults/
+*.ide/
+*.nupkg
+
+# Publish & temp
+*.Publish.xml
+_ReSharper.Caches/
+*.dbmdl
+*.opendb
+*.tmp
+
+# OS
+Thumbs.db
+.DS_Store

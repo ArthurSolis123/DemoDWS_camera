@@ -1,0 +1,786 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LogisticsBaseCSharp</name>
+    </assembly>
+    <members>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.CopyMemory(System.IntPtr,System.IntPtr,System.Int32)">
+            <summary>
+            指针之间进行数据拷贝
+            </summary>
+            <param name="pDst">目标地址</param>
+            <param name="pSrc">原地址</param>
+            <param name="len">拷贝数据长度</param>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbCreateBaseApp">
+            <summary>
+            创建BaseApp句柄
+            </summary>
+            <returns>成功返回BaseApp句柄，否则返回NULL</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbInitBaseApp(System.IntPtr,System.String,System.Boolean)">
+            <summary>
+            初始化，主要进行配置文件读取
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="cfgPath">配置文件路径</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbRun(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbRunResultCB)">
+            <summary>
+            启动BaseApp
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="procRunCB">结果回调函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbAttachCameraDisconnectCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbCameraDisconnectCB)">
+            <summary>
+            订阅相机断线事件
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="procCameraDisconnectCB">相机断线回调事件</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbDetachCameraDisconnectCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbCameraDisconnectCB)">
+            <summary>
+            取消订阅相机断线事件
+            </summary>
+            <param name="handle"></param>
+            <param name="procCameraDisconnectCB"></param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbSetStopSignal(System.IntPtr,System.String,System.Int32)">
+            <summary>
+            通知函数
+            </summary>
+            <param name="handle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbDestroyBaseApp(System.IntPtr)">
+            <summary>
+            摧毁句柄
+            </summary>
+            <param name="handle"></param>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbStop(System.IntPtr)">
+            <summary>
+            停止BaseApp
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbFiniBaseApp(System.IntPtr)">
+            <summary>
+            反初始化
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbAttachRealErrorInfoCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbRealErrorInfoCB)">
+            <summary>
+            注册包裹信息绑定异常实时回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="procRealErrorInfoCB">回调函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbDetachRealErrorInfoCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbRealErrorInfoCB)">
+            <summary>
+            卸载包裹信息绑定异常实时回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="procRealErrorInfoCB">procRealImageCB, 回调函数</param>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:LogisticsBaseCSharp.LogisticsAPI.vslbGetWorkCameraKey(System.IntPtr,System.Int32,LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraTagsArray@)”忽略有格式错误的 XML 注释 -->
+        <!-- 对于成员“M:LogisticsBaseCSharp.LogisticsAPI.vslbGetWorkCameraInfo(System.IntPtr,System.IntPtr)”忽略有格式错误的 XML 注释 -->
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbSetSerialPortCommand(System.IntPtr,System.Int32)">
+            <summary>
+            控制SDK串口称执行某条指令的输出。
+            </summary>
+            <param name="handle"></param>
+            <param name="command">执行指令的标志位。1:整机开机。2：整机停机。3：报警停机。4：报警恢复后重启。</param>
+            <returns>成功返回 0 , 否则返回-1.</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbWndSendMsg(System.IntPtr,System.String,System.String,System.Int32)">
+            <summary>
+            句柄定向输出。
+            </summary>
+            <param name="handle"></param>
+            <param name="filePath">句柄位置文件</param>
+            <param name="barcodeInfo">包裹条码等信息</param>
+            <param name="sendMode">发送信息附加操作类型：0：无需带回车。非0：带回车。</param>
+            <returns>成功返回 0 , 否则返回-1.</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbSetCameraIoOutput(System.IntPtr,System.Int32)">
+            <summary>
+            控制SDK相机IO输出高低电平信号。
+            </summary>
+            <param name="handle"></param>
+            <param name="command">执行指令的标志位。0:IO输出停止称 1：IO输出启动称</param>
+            <returns>成功返回 0 , 否则返回-1.</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbAttachRealImageCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbRealImageCB)">
+            <summary>
+            注册相机实时图片信息的回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="realImageCB">响应回调事件的响应函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbDetachRealImageCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbRealImageCB)">
+            <summary>
+            卸载相机实时图片信息结果处理逻辑回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="realImageCB">响应回调事件的响应函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbAttachAllCameraCodeinfoCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbAllCameraCodeInfoCB)">
+            <summary>
+            注册所有相机的读码信息的回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="allCameraCodeInfoCB">响应回调事件的响应函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbDetachAllCameraCodeinfoCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbAllCameraCodeInfoCB)">
+            <summary>
+            卸载扫码结果处理逻辑回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="allCameraCodeInfoCB">响应回调事件的响应函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbAttachIpcCombineInfoCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbIpcCombineInfoCB)">
+            <summary>
+            注册全景相机及条码抠图拼接图信息的回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="allCameraCodeInfoCB">响应回调事件的响应函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbDetachIpcCombineInfoCB(System.IntPtr,LogisticsBaseCSharp.LogisticsAPI.VslbIpcCombineInfoCB)">
+            <summary>
+            卸载全景相机及条码抠图拼接图信息结果处理逻辑回调函数
+            </summary>
+            <param name="handle">BaseApp句柄</param>
+            <param name="allCameraCodeInfoCB">响应回调事件的响应函数</param>
+            <returns>成功返回0，否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPI.vslbSoftTrigger(System.IntPtr)">
+            <summary>
+            相机软触发。
+            </summary>
+            <param name="handle"></param>
+            <returns>成功返回 0 , 否则返回-1.</returns>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPI.VslbRunResultCB">
+            <summary>
+            BaseApp运行结果回调函数定义
+            </summary>
+            <param name="picKey">图像源Key</param>
+            <param name="resultPtr">运行结果</param>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPI.VslbCameraDisconnectCB">
+            <summary>
+            相机断线回调
+            </summary>
+            <param name="cameraKey">相机Key</param>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPI.VslbRealImageCB">
+            <summary>
+            相机实时图片信息
+            </summary>
+            <param name="cameraKey">相机Key</param>
+            <param name="cameraIp">相机ip</param>
+            <param name="image">图片</param>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPI.VslbAllCameraCodeInfoCB">
+            <summary>
+            包裹结束后所有相机的扫码信息
+            </summary>
+            <param name="cameraKey">相机Key</param>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPI.VslbIpcCombineInfoCB">
+            <summary>
+            包裹结束后全景相机及条码抠图拼接图信息
+            </summary>
+            <param name="cameraKey">相机Key</param>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPI.VslbRealErrorInfoCB">
+            <summary>
+            异常信息回调
+            </summary>
+            <param name="timeStamp">包裹时间戳</param>
+            <param name="errorType">异常类型</param>
+            <param name="errorContent">异常信息描述</param>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsAPIStruct.GetString(System.Byte[])">
+            <summary>
+            byte数组转string
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.image">
+            <summary>
+            原始图片
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.codes">
+            <summary>
+            条码
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.resultAreas">
+            <summary>
+            条码区域
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.steadyWeight">
+            <summary>
+            稳定重量
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.waybillImage">
+            <summary>
+            面单图像
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.volumeInfo">
+            <summary>
+            体积信息
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult.outputResult">
+            <summary>
+            输出模块返回值（0：成功，-1：失败）
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraTags">
+            <summary>
+            相机标签
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraTags.key">
+            <summary>
+            相机Key值
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraTags.deviceUserID">
+            <summary>
+            相机自定义参数
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraTagsArray">
+            <summary>
+            相机标签数组
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos">
+            <summary>
+            相机信息标签
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos.camDevID">
+            <summary>
+            相机deviceId值
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos.camDevModelName">
+            <summary>
+            相机型号信息
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos.camDevSerialNumber">
+            <summary>
+            相机序列号
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos.camDevVendor">
+            <summary>
+            相机厂商名
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos.camDevFirewareVersion">
+            <summary>
+            相机固件版本名
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfos.camDevExtraInfo">
+            <summary>
+            扩展字段
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.VslbCameraInfosArray">
+            <summary>
+            工作相机的信息数组
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.VslbVolumeInfo">
+            <summary>
+            体积信息（长宽高 单位mm）
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbVolumeInfo.length">
+            <summary>
+            长度 mm
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbVolumeInfo.width">
+            <summary>
+            宽度 mm
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbVolumeInfo.height">
+            <summary>
+            高度 mm
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbVolumeInfo.volume">
+            <summary>
+            体积 mm3
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo">
+            <summary>
+            单个相机扫码上报信息内容
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.image">
+            <summary>
+            原始图片
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.codes">
+            <summary>
+            条码
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.resultAreas">
+            <summary>
+            条码区域
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.waybillImage">
+            <summary>
+            面单图像
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.outputResult">
+            <summary>
+            输出模块返回值（0：成功，-1：失败）
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.key">
+            char[256]
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.cameraIP">
+            char[256]
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.singleCameraCodeInfo.reserved">
+            char[100]
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.AllCameraCodeInfo">
+            <summary>
+            所有相机扫码信息回调结构体
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.AllCameraCodeInfo.cameraCodeInfo">
+            singleCameraCodeInfo*
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.AllCameraCodeInfo.numCam">
+            int
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsAPIStruct.VslbIpcCombineInfo">
+            <summary>
+            全景相机及条码抠图拼接图信息
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbIpcCombineInfo.barcodeMattingImage">
+            <summary>
+            抠图条码拼接图片
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbIpcCombineInfo.ipcImage">
+            <summary>
+            Ipc图片
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbIpcCombineInfo.combineImage">
+            <summary>
+            条码图片及Ipc拼接图片
+            </summary>
+        </member>
+        <member name="F:LogisticsBaseCSharp.LogisticsAPIStruct.VslbIpcCombineInfo.picInfo">
+            <summary>
+            拼接图命名信息
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.LogisticsCodeEventArgs">
+            <summary>
+            条码结果回调信息类
+            </summary>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsCodeEventArgs.#ctor(System.String,LogisticsBaseCSharp.LogisticsAPIStruct.VslbRunResult)">
+            <summary>
+            条码结果回调信息类 构造函数
+            </summary>
+            <param name="vslbR"></param>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.CameraID">
+            <summary>
+            本地读图解码模式：返回图片路径
+            相机读图解码模式：返回相机IP
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.OutputResult">
+            <summary>
+            回调状态属性   0：只回调条码  1：回调条码重量体积
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.CodeList">
+            <summary>
+            条码列表
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.AreaList">
+            <summary>
+            条码区域坐标
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.Weight">
+            <summary>
+            稳定重量
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.VolumeInfo">
+            <summary>
+            体积信息
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.OriginalImage">
+            <summary>
+            原始相机图片
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.CodeTimeStamp">
+            <summary>
+            时间戳
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.LogisticsCodeEventArgs.WaybillImage">
+            <summary>
+            截取面单图片
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.RealImageArgs">
+            <summary>
+            相机实时图像结果回调信息类
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.RealImageArgs.realImage">
+            <summary>
+            实时图片
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.SingleCameraCodeInfo">
+            <summary>
+            单个相机的扫码信息结果类
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.OriginalImage">
+            <summary>
+            原始相机图片
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.WaybillImage">
+            <summary>
+            截取面单图片
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.OutputResult">
+            <summary>
+            回调状态属性   0：只回调条码  1：回调条码重量体积
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.CodeList">
+            <summary>
+            条码列表
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.AreaList">
+            <summary>
+            条码区域坐标
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.CodeTimeStamp">
+            <summary>
+            时间戳
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.Key">
+            <summary>
+            相机key
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.CameraIP">
+            <summary>
+            相机IP（USB相机时为空）
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.SingleCameraCodeInfo.Reserved">
+            <summary>
+            备用
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.AllCameraCodeInfoArgs">
+            <summary>
+            所有相机扫码结果回调信息类
+            </summary>
+        </member>
+        <member name="M:LogisticsBaseCSharp.AllCameraCodeInfoArgs.#ctor(LogisticsBaseCSharp.LogisticsAPIStruct.AllCameraCodeInfo)">
+            <summary>
+            条码结果回调信息类 构造函数
+            </summary>
+            <param name="vslbR"></param>
+        </member>
+        <member name="T:LogisticsBaseCSharp.IpcCombineInfoArgs">
+            <summary>
+            全景相机及条码抠图结果回调信息类
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.IpcCombineInfoArgs.packageTimeStamp">
+            <summary>
+            时间戳
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.IpcCombineInfoArgs.barcodeMattingImage">
+            <summary>
+            条码抠图拼图
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.IpcCombineInfoArgs.ipcImage">
+            <summary>
+            全景相机图片
+            </summary>
+        </member>
+        <member name="P:LogisticsBaseCSharp.IpcCombineInfoArgs.combineImage">
+            <summary>
+            条码抠图及全景相机图片拼接图
+            </summary>
+        </member>
+        <member name="T:LogisticsBaseCSharp.RealErrorInfo">
+            <summary>
+            底层异常回调信息类
+            </summary>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.Initialization(System.String)">
+            <summary>
+            C++ SDK初始化函数
+            </summary>
+            <param name="cfgPath">C++ SDK配置文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.Start">
+            <summary>
+            C++ SDK启动函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.AttachCameraDisconnectCB">
+            <summary>
+            开启DWS底层的相机断线上报功能
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.DetachCameraDisconnectCB">
+            <summary>
+            关闭DWS底层的相机断线上报功能
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.StopApp">
+            <summary>
+            C++ SDK停止函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetCamerasStatus(LogisticsBaseCSharp.CameraTagsArray@)">
+            <summary>
+            
+            </summary>
+            <param name="vslbCameraTagsArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetCamerasInfos(LogisticsBaseCSharp.CameraInfosArray@)">
+            <summary>
+            
+            </summary>
+            <param name="cameraInfosArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.SetExposureTime(System.Int32,System.Int32)">
+            <summary>
+            设置曝光值
+            </summary>
+            <param name="indexCam"></param>
+            <param name="exposureTimeN"></param>
+            <returns>设置是否成功</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetExposureTime(System.Int32)">
+            <summary>
+            获取曝光值
+            </summary>
+            <param name="indexCam"></param>
+            <param name="exposureTimeN"></param>
+            <returns>曝光值</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.SetGain(System.Int32,System.Int32)">
+            <summary>
+            设置伽马
+            </summary>
+            <param name="indexCam"></param>
+            <param name="gainN"></param>
+            <returns>设置是否成功</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetGain(System.Int32)">
+            <summary>
+            获取伽马
+            </summary>
+            <param name="indexCam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.SetContrast(System.Int32,System.Int32)">
+            <summary>
+            设置对比度
+            </summary>
+            <param name="indexCam"></param>
+            <param name="contrastN"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetContrast(System.Int32)">
+            <summary>
+            获取对比度
+            </summary>
+            <param name="indexCam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.SetFrameRate(System.Int32,System.Int32)">
+            <summary>
+            设置帧率
+            </summary>
+            <param name="indexCam"></param>
+            <param name="frameRateN"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetFrameRate(System.Int32)">
+            <summary>
+            获取帧率
+            </summary>
+            <param name="indexCam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.GetWorkCameraCount">
+            <summary>
+            获取工作相机个数
+            </summary>
+            <returns>相机个数</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.SetSerialportCommand(System.Int32)">
+            <summary>
+            控制新视景秤 1:整机开机。2：整机停机。3：报警停机。4：报警恢复后重启。
+            </summary>
+            <param name="command">1:整机开机。2：整机停机。3：报警停机。4：报警恢复后重启。</param>
+            <returns>成功返回 0 , 否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.WndSendMsg(System.String,System.String,System.Int32)">
+            <summary>
+            控制新视景秤 1:整机开机。2：整机停机。3：报警停机。4：报警恢复后重启。
+            </summary>
+            <param name="command">1:整机开机。2：整机停机。3：报警停机。4：报警恢复后重启。</param>
+            <returns>成功返回 0 , 否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.SetCameraIoOutput(System.Int32)">
+            <summary>
+            相机IO输出 0:IO输出低电平命令 1：IO输出高电平命令。
+            </summary>
+            <param name="command">0:IO输出停止称 1：IO输出启动称。</param>
+            <returns>成功返回 0 , 否则返回-1</returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.AttachRealImageCB">
+            <summary>
+            注册相机实时图片信息的回调函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.DetachRealImageCB">
+            <summary>
+            卸载相机实时图片信息结果处理逻辑回调函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.AttachAllCameraCodeinfoCB">
+            <summary>
+            注册所有相机的读码信息的回调函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.DetachAllCameraCodeinfoCB">
+            <summary>
+            卸载所有相机扫码结果处理逻辑回调函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.AttachIpcCombineInfoCB">
+            <summary>
+            注册全景相机及条码抠图拼接图信息的回调函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.DetachIpcCombineInfoCB">
+            <summary>
+            卸载全景相机及条码抠图拼接图信息结果处理逻辑回调函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LogisticsBaseCSharp.LogisticsWrapper.CameraSoftTrigger">
+            <summary>
+            软触发相机
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:LogisticsBaseCSharp.LogisticsWrapper.CodeHandle">
+            <summary>
+             DWS SDK包裹的条码重量体积信息回调事件
+            </summary>
+        </member>
+        <member name="E:LogisticsBaseCSharp.LogisticsWrapper.CameraDisconnectEventHandler">
+            <summary>
+            DWS SDK相机断线信息回调事件
+            </summary>
+        </member>
+        <member name="E:LogisticsBaseCSharp.LogisticsWrapper.RealImageEventHandler">
+            <summary>
+            相机实时图片信息回调事件
+            </summary>
+        </member>
+        <member name="E:LogisticsBaseCSharp.LogisticsWrapper.AllCameraCodeInfoEventHandler">
+            <summary>
+            所有相机扫码信息回调事件
+            </summary>
+        </member>
+        <member name="E:LogisticsBaseCSharp.LogisticsWrapper.IpcCombineInfoEventHandler">
+            <summary>
+            DWS SDK全景相机及条码拼图信息回调事件
+            </summary>
+        </member>
+        <member name="E:LogisticsBaseCSharp.LogisticsWrapper.RealErrorInfoEventHandler">
+            <summary>
+            实时错误信息回调时间
+            </summary>
+        </member>
+    </members>
+</doc>
