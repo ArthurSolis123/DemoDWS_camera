@@ -86,7 +86,7 @@ namespace DemoDWS
 
         public Form1DWS()
         {
-            Console.WriteLine("initi");
+            //Console.WriteLine("initi");
             InitializeComponent();
 
             //Image display
@@ -101,26 +101,7 @@ namespace DemoDWS
             m_ComponentList.Add(m_imageSaver);
         }
 
-        private void checkCameraConfiguration()
-        {
-            Console.WriteLine("=== CAMERA CONFIGURATION CHECK ===");
 
-            // Check if cameras are properly configured in the system
-            var cameraStatusList = dwsManager.GetCamerasStatus();
-            if (cameraStatusList != null)
-            {
-                Console.WriteLine($"Found {cameraStatusList.Count()} camera statuses:");
-                foreach (var camera in cameraStatusList)
-                {
-                    Console.WriteLine($"Camera Key: '{camera.key}'");
-                    Console.WriteLine($"  - User ID: {camera.deviceUserID}");
-                    Console.WriteLine($"  - Online: {(camera.isOnline ? "YES" : "NO")}");
-                    Console.WriteLine($"  - Status Details: {camera.ToString()}");
-                }
-            }
-
-            Console.WriteLine("=== END CAMERA CHECK ===");
-        }
         /// <summary>
         /// Get all camera information
         /// </summary>
@@ -139,12 +120,6 @@ namespace DemoDWS
                 int idx = 0;
                 foreach (var cameraInfo in cameraInfoList)
                 {
-                    System.Console.WriteLine($"[Camera {idx}] Found camera:");
-                    System.Console.WriteLine($"  - Key: '{cameraInfo?.camDevExtraInfo}'");
-
-                    System.Console.WriteLine($"  - Model: '{cameraInfo?.camDevModelName}'");
-                    System.Console.WriteLine($"  - Serial: '{cameraInfo?.camDevSerialNumber}'");
-
                     if (cameraInfo == null)
                     {
                         System.Console.WriteLine($"[Camera {idx}] ERROR: Camera info is null");
@@ -155,17 +130,17 @@ namespace DemoDWS
                     var key = cameraInfo.camDevExtraInfo;
                     if (string.IsNullOrWhiteSpace(key))
                     {
-                        System.Console.WriteLine($"[Camera {idx}] WARNING: Camera key is empty, using IP instead");
+                        // System.Console.WriteLine($"[Camera {idx}] WARNING: Camera key is empty, using IP instead");
                     }
 
                     if (!camerInfoMap.ContainsKey(key))
                     {
                         camerInfoMap.Add(key, cameraInfo);
-                        System.Console.WriteLine($"[Camera {idx}] Added to camera map with key: '{key}'");
+                        // System.Console.WriteLine($"[Camera {idx}] Added to camera map with key: '{key}'");
                     }
                     else
                     {
-                        System.Console.WriteLine($"[Camera {idx}] Already in camera map");
+                        // System.Console.WriteLine($"[Camera {idx}] Already in camera map");
                     }
 
                     idx++;
@@ -173,17 +148,17 @@ namespace DemoDWS
             }
             else
             {
-                System.Console.WriteLine("ERROR: No cameras found!");
+                // System.Console.WriteLine("ERROR: No cameras found!");
                 LogHelper.Log.InfoFormat("The camera failed to obtain device information");
             }
 
             LogHelper.Log.InfoFormat("[getAllCameraInfos]end getAllCameraInfos");
 
             // Print final camera map
-            System.Console.WriteLine($"Final camera map contains {camerInfoMap.Keys.Count} cameras:");
+            //System.Console.WriteLine($"Final camera map contains {camerInfoMap.Keys.Count} cameras:");
             foreach (var key in camerInfoMap.Keys)
             {
-                System.Console.WriteLine($"  - Camera key: '{key}'");
+                //System.Console.WriteLine($"  - Camera key: '{key}'");
             }
 
             var keys = camerInfoMap.Keys.ToList();
@@ -192,18 +167,18 @@ namespace DemoDWS
                 var leftKey = keys[0];
                 var rightKey = keys[1];
 
-                System.Console.WriteLine($"Configuring display: LEFT='{leftKey}', RIGHT='{rightKey}'");
+                //System.Console.WriteLine($"Configuring display: LEFT='{leftKey}', RIGHT='{rightKey}'");
 
                 var imgView = m_ComponentList.OfType<ImageView>().FirstOrDefault();
                 if (imgView != null)
                 {
                     imgView.ConfigureCameraSlots(leftKey, rightKey);
-                    Console.WriteLine($"[ROUTE] LEFT={leftKey}  RIGHT={rightKey}");
+                    //Console.WriteLine($"[ROUTE] LEFT={leftKey}  RIGHT={rightKey}");
                 }
             }
             else
             {
-                System.Console.WriteLine($"ERROR: Need at least 2 cameras but only found {keys.Count}");
+                //System.Console.WriteLine($"ERROR: Need at least 2 cameras but only found {keys.Count}");
             }
         }
 
@@ -230,34 +205,7 @@ namespace DemoDWS
 
             LogHelper.Log.InfoFormat("[getAllCameraStatus]end getAllCameraStatus");
         }
-        private void checkBothCamerasStatus()
-        {
-            Console.WriteLine("=== CHECKING BOTH CAMERAS STATUS ===");
 
-            var cameraStatusList = dwsManager.GetCamerasStatus();
-            if (cameraStatusList != null)
-            {
-                foreach (var camera in cameraStatusList)
-                {
-                    Console.WriteLine($"Camera: '{camera.key}'");
-                    Console.WriteLine($"  - UserID: {camera.deviceUserID}");
-                    Console.WriteLine($"  - Online: {(camera.isOnline ? "YES" : "NO")}");
-
-                    // Check if this is our left or right camera
-                    if (camera.key == "Huaray Technology:7F0210EPAK00040")
-                    {
-                        Console.WriteLine("  - This is the LEFT camera (working)");
-                    }
-                    else if (camera.key == "Huaray Technology:CL00212JBY00049")
-                    {
-                        Console.WriteLine("  - This is the RIGHT camera (not working)");
-                    }
-                    Console.WriteLine("");
-                }
-            }
-
-            Console.WriteLine("=== END CAMERA STATUS CHECK ===");
-        }
         private void LogTextOnUI(string text)
         {
             if (listBoxLog.InvokeRequired)
@@ -344,11 +292,11 @@ namespace DemoDWS
                             ? "null"
                             : $"{info.WayImage.Width}x{info.WayImage.Height} type={info.WayImage.Type} bytes={info.WayImage.DataSize}";
 
-                        Console.WriteLine($"[IMG #{n}] cam='{info.CameraID}'  OriImage={ori}  WaybillImage={way}");
+                        //Console.WriteLine($"[IMG #{n}] cam='{info.CameraID}'  OriImage={ori}  WaybillImage={way}");
                     }
                     else
                     {
-                        Console.WriteLine("[IMG] no image objects attached on this package.");
+                        //Console.WriteLine("[IMG] no image objects attached on this package.");
                     }
                 }
                 catch (Exception ex)
@@ -407,48 +355,6 @@ namespace DemoDWS
                 LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
             }
         }
-        private void deepCameraDiscoveryDebug()
-        {
-            Console.WriteLine("=== DEEP CAMERA DISCOVERY DEBUG ===");
-
-            // Check what the SDK actually sees
-            var workCameras = dwsManager.GetWorkCameraInfo();
-            var statusCameras = dwsManager.GetCamerasStatus();
-
-            Console.WriteLine($"GetWorkCameraInfo() returned: {(workCameras?.Count() ?? 0)} cameras");
-            if (workCameras != null)
-            {
-                int i = 0;
-                foreach (var cam in workCameras)
-                {
-                    Console.WriteLine($"  Work Camera {i}:");
-                    Console.WriteLine($"    - ExtraInfo: '{cam.camDevExtraInfo}'");
-                    Console.WriteLine($"    - Vendor: '{cam.camDevVendor}'");
-                    Console.WriteLine($"    - Model: '{cam.camDevModelName}'");
-                    Console.WriteLine($"    - Serial: '{cam.camDevSerialNumber}'");
-                    Console.WriteLine($"    - DevID: '{cam.camDevID}'");
-
-                    i++;
-                }
-            }
-
-            Console.WriteLine($"GetCamerasStatus() returned: {(statusCameras?.Count() ?? 0)} cameras");
-            if (statusCameras != null)
-            {
-                int i = 0;
-                foreach (var cam in statusCameras)
-                {
-                    Console.WriteLine($"  Status Camera {i}:");
-                    Console.WriteLine($"    - Key: '{cam.key}'");
-                    Console.WriteLine($"    - UserID: '{cam.deviceUserID}'");
-                    Console.WriteLine($"    - Online: {cam.isOnline}");
-                    i++;
-                }
-            }
-
-            Console.WriteLine("=== END DEEP DEBUG ===");
-        }
-
 
         /// <summary>
         /// Specific methods for processing package information, such as displaying barcode information, original image, cutout, weight, volume
@@ -481,10 +387,8 @@ namespace DemoDWS
                     {
                         //Processing the barcode information of the package
                         LogHelper.Log.InfoFormat("Processing parcel information [barcode only]： {0}", string.Join("_", e.CodeList));
-                        Console.WriteLine($"[ProcessPackage] Sending image from camera '{e.CameraID}' to {m_ComponentList.Count} components");
                         foreach (var comp in m_ComponentList)
                         {
-                            Console.WriteLine($"[ProcessPackage] Sending to component: {comp.GetType().Name}");
                             comp.OnPacketResultReached(this, e);
                         }
                     }
@@ -564,22 +468,22 @@ namespace DemoDWS
 
             foreach (var codeData in infoArgs.SingleCameraCodeInfoList)
             {
-                Console.WriteLine($"[AllCameraCodeInfo] Camera: '{codeData.Key}'");
-                Console.WriteLine($"  - Codes found: {codeData.CodeList.Count}");
+                //Console.WriteLine($"[AllCameraCodeInfo] Camera: '{codeData.Key}'");
+                //Console.WriteLine($"  - Codes found: {codeData.CodeList.Count}");
 
                 // Check if image data exists (VslbImage type)
                 bool hasImage = (codeData.OriginalImage.ImageData != IntPtr.Zero && codeData.OriginalImage.dataSize > 0);
-                Console.WriteLine($"  - Has image: {(hasImage ? "YES" : "NO")}");
+                //Console.WriteLine($"  - Has image: {(hasImage ? "YES" : "NO")}");
 
                 if (hasImage)
                 {
-                    Console.WriteLine($"  - Image size: {codeData.OriginalImage.width}x{codeData.OriginalImage.height}");
-                    Console.WriteLine($"  - Image data size: {codeData.OriginalImage.dataSize} bytes");
+                    //Console.WriteLine($"  - Image size: {codeData.OriginalImage.width}x{codeData.OriginalImage.height}");
+                    //Console.WriteLine($"  - Image data size: {codeData.OriginalImage.dataSize} bytes");
 
                     // Check if this is our industrial camera
                     if (codeData.Key.Contains("CL00212JBY00049") || codeData.Key.Contains("AB3600MG000"))
                     {
-                        Console.WriteLine("  - *** THIS IS THE INDUSTRIAL CAMERA! ***");
+                        //Console.WriteLine("  - *** THIS IS THE INDUSTRIAL CAMERA! ***");
                     }
 
                     // Convert VslbImage to RawImage for display
@@ -602,7 +506,7 @@ namespace DemoDWS
                 }
                 else
                 {
-                    Console.WriteLine($"  - No image data from camera '{codeData.Key}'");
+                    //Console.WriteLine($"  - No image data from camera '{codeData.Key}'");
                 }
             }
         }
@@ -628,18 +532,21 @@ namespace DemoDWS
         private void RealImageCBCallBack(object o, RealImageArgs infoArgs)
         {
             var n = Interlocked.Increment(ref _realImgCount);
-            Console.WriteLine($"[RealImage] Frame #{n} received from camera: '{infoArgs.cameraIp}' at {DateTime.Now:HH:mm:ss.fff}");
+            if (n % 30 == 0)
+            { // Only log every 30th frame
+                Console.WriteLine($"[RealImage] Frame #{n} from {infoArgs.cameraIp}");
+            }
 
             // Check if this is our industrial camera
             if (infoArgs.cameraIp.Contains("CL00212JBY00049") || infoArgs.cameraIp.Contains("AB3600MG000"))
             {
-                Console.WriteLine("[RealImage] *** INDUSTRIAL CAMERA IMAGE RECEIVED! ***");
+                //Console.WriteLine("[RealImage] *** INDUSTRIAL CAMERA IMAGE RECEIVED! ***");
             }
 
 
             if (infoArgs.realImage.ImageData == IntPtr.Zero)
             {
-                Console.WriteLine($"[RealImage] ERROR: ImageData is empty from camera '{infoArgs.cameraIp}'");
+                //Console.WriteLine($"[RealImage] ERROR: ImageData is empty from camera '{infoArgs.cameraIp}'");
                 return;
             }
 
@@ -658,7 +565,7 @@ namespace DemoDWS
 
 
 
-            Console.WriteLine($"[RealImage] Sending image from camera '{pkg.CameraID}' to display components");
+            //Console.WriteLine($"[RealImage] Sending image from camera '{pkg.CameraID}' to display components");
 
             foreach (var comp in m_ComponentList)
             {
@@ -685,7 +592,7 @@ namespace DemoDWS
             dwsManager = LogisticsBaseCSharp.LogisticsWrapper.Instance;
 
             int status = dwsManager.Initialization(".\\Cfg\\LogisticsBase.cfg");
-            Console.WriteLine($"Init status={status}  ({ErrorInfo.GetErrorMessage(status)})");  // shows if cfg loaded OK
+            //Console.WriteLine($"Init status={status}  ({ErrorInfo.GetErrorMessage(status)})");  // shows if cfg loaded OK
             if (status != (int)EAppRunStatus.eAppStatusInitOK)
             {
                 retStr = ErrorInfo.GetErrorMessage(status);
@@ -701,19 +608,17 @@ namespace DemoDWS
             //Turn on the callback function that registers all camera code reading information
             //Enable the callback function that registers all camera code reading information
             bool b = dwsManager.AttachAllCameraCodeinfoCB();
-            Console.WriteLine($"[STARTUP] AttachAllCameraCodeinfoCB() returned: {b}");
             if (!b)
             {
-                Console.WriteLine("[STARTUP] WARNING: Failed to attach AllCameraCodeInfo callback!");
+                //Console.WriteLine("[STARTUP] WARNING: Failed to attach AllCameraCodeInfo callback!");
             }
 
             //Open the callback function for registering panoramic camera and barcode cutout splicing image information
             bool c = dwsManager.AttachIpcCombineInfoCB();
-            Console.WriteLine($"[STARTUP] AttachIpcCombineInfoCB() returned: {c}");
+
 
             //Open the callback function for registering the camera's real-time picture information
             bool d = dwsManager.AttachRealImageCB();
-            Console.WriteLine($"[STARTUP] AttachRealImageCB() returned: {d}");
 
             //MessageBox.Show(b.ToString());
 
@@ -721,7 +626,7 @@ namespace DemoDWS
             dwsManager.CameraDisconnectEventHandler += CameraDisconnectCallBack;
 
             status = dwsManager.Start();//Make judgments on the return value uploaded from the bottom layer and pop up the corresponding pop-up box
-            Console.WriteLine($"Start status={status}  ({ErrorInfo.GetErrorMessage(status)})"); // shows if SDK actually started
+            //Console.WriteLine($"Start status={status}  ({ErrorInfo.GetErrorMessage(status)})"); // shows if SDK actually started
             retStr = ErrorInfo.GetErrorMessage(status);
             LogTextOnUI("dwsManager.Start ret val:{" + status + "},ret info:");
             LogTextOnUI("{" + retStr + " }" + "\r\n");
@@ -792,12 +697,9 @@ namespace DemoDWS
 
             LogTextOnUI(DateTime.Now.ToLongTimeString() + " Successfully started DWS");
 
-            //获取所有相机设备信息
+            //Get all camera device information
             getAllCameraInfos();
             getAllCameraStatus();
-            checkCameraConfiguration(); // ADD THIS LINE
-            checkBothCamerasStatus(); // ADD THIS LINE
-            deepCameraDiscoveryDebug(); // ADD THIS
 
         }
 
@@ -916,23 +818,23 @@ namespace DemoDWS
         {
             if (isRunningDWS == true)
             {
-                Console.WriteLine("=== MANUAL TRIGGER PRESSED ===");
-                Console.WriteLine("Triggering both cameras...");
+                //Console.WriteLine("=== MANUAL TRIGGER PRESSED ===");
+                //Console.WriteLine("Triggering both cameras...");
 
                 int status = dwsManager.CameraSoftTrigger();//Execute a single soft trigger
                 if (0 == status)
                 {
-                    Console.WriteLine("Soft trigger executed successfully");
+                    //Console.WriteLine("Soft trigger executed successfully");
                     LogTextOnUI(DateTime.Now.ToLongTimeString() + " Soft trigger execution succeeded");
                 }
                 else
                 {
-                    Console.WriteLine($"Soft trigger failed with status: {status}");
+                    //Console.WriteLine($"Soft trigger failed with status: {status}");
                     LogTextOnUI(DateTime.Now.ToLongTimeString() + " Execution soft trigger failed");
                     LogTextOnUI("\r\n");
                 }
 
-                Console.WriteLine("=== TRIGGER COMPLETE ===");
+                //Console.WriteLine("=== TRIGGER COMPLETE ===");
             }
             else
             {

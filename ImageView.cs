@@ -34,7 +34,7 @@ namespace DemoDWS
         {
             _leftCamKey = leftCamKey;
             _rightCamKey = rightCamKey;
-            Console.WriteLine($"[CFG] Left='{_leftCamKey}', Right='{_rightCamKey}'");
+            //Console.WriteLine($"[CFG] Left='{_leftCamKey}', Right='{_rightCamKey}'");
         }
 
         public ImageView()
@@ -73,36 +73,36 @@ namespace DemoDWS
 
         public override void OnPacketResultReached(object o, BaseCodeData arg)
         {
-            Console.WriteLine($"[ImageView] Received packet from camera: '{arg.CameraID}'");
-            Console.WriteLine($"[ImageView] Left camera key: '{_leftCamKey}', Right camera key: '{_rightCamKey}'");
+            //Console.WriteLine($"[ImageView] Received packet from camera: '{arg.CameraID}'");
+            //Console.WriteLine($"[ImageView] Left camera key: '{_leftCamKey}', Right camera key: '{_rightCamKey}'");
 
             // Prefer original; fall back to matting if needed
             var img = arg.OriImage ?? arg.WayImage;
             if (img == null || img.Width <= 0 || img.Height <= 0)
             {
-                Console.WriteLine("[ImageView] ERROR: No usable image in packet");
+                //Console.WriteLine("[ImageView] ERROR: No usable image in packet");
                 return;
             }
 
-            Console.WriteLine($"[ImageView] Valid image: {img.Width}x{img.Height}");
+            //Console.WriteLine($"[ImageView] Valid image: {img.Width}x{img.Height}");
 
             // Decide which tile to use by camera key
             if (!string.IsNullOrEmpty(_leftCamKey) && arg.CameraID == _leftCamKey)
             {
-                Console.WriteLine($"[ImageView] Displaying on LEFT tile for camera: {arg.CameraID}");
+                //Console.WriteLine($"[ImageView] Displaying on LEFT tile for camera: {arg.CameraID}");
                 ShowImage(SourceType.OrigianlImage, arg.CameraID, img, arg.AreaList);
             }
             else if (!string.IsNullOrEmpty(_rightCamKey) && arg.CameraID == _rightCamKey)
             {
-                Console.WriteLine($"[ImageView] Displaying on RIGHT tile for camera: {arg.CameraID}");
+                //Console.WriteLine($"[ImageView] Displaying on RIGHT tile for camera: {arg.CameraID}");
                 ShowImage(SourceType.MattingImage, arg.CameraID, img, arg.AreaList);
             }
             else
             {
-                Console.WriteLine($"[ImageView] No matching camera slot found for: '{arg.CameraID}'");
-                Console.WriteLine($"[ImageView] Available slots - Left: '{_leftCamKey}', Right: '{_rightCamKey}'");
+                //Console.WriteLine($"[ImageView] No matching camera slot found for: '{arg.CameraID}'");
+                //Console.WriteLine($"[ImageView] Available slots - Left: '{_leftCamKey}', Right: '{_rightCamKey}'");
                 // Fallback: send to left
-                Console.WriteLine($"[ImageView] Using FALLBACK LEFT tile for camera: {arg.CameraID}");
+                //Console.WriteLine($"[ImageView] Using FALLBACK LEFT tile for camera: {arg.CameraID}");
                 ShowImage(SourceType.OrigianlImage, arg.CameraID, img, arg.AreaList);
             }
         }
@@ -114,8 +114,8 @@ namespace DemoDWS
 
         private void ShowImage(SourceType type, string cameraId, RawImage image, List<Point[]> areaList)
         {
-            Console.WriteLine($"[ShowImage] Attempting to show image from camera '{cameraId}' on {type}");
-            Console.WriteLine($"[ShowImage] Image size: {image?.Width}x{image?.Height}");
+            //Console.WriteLine($"[ShowImage] Attempting to show image from camera '{cameraId}' on {type}");
+            //Console.WriteLine($"[ShowImage] Image size: {image?.Width}x{image?.Height}");
 
             VideoFrameInfo frameInfo = new VideoFrameInfo();
             frameInfo.frame = new VideoFrame();

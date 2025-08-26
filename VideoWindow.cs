@@ -124,7 +124,10 @@ namespace DemoDWS
         public VideoFrame Frame
         {
             get { return m_frame; }
-            set { m_frame = value; this.Invalidate(); Console.WriteLine("[UI] frame set"); }
+            set
+            {
+                m_frame = value; this.Invalidate(); //Console.WriteLine("[UI] frame set"); }
+            }
         }
 
         public new string Text
