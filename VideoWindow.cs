@@ -164,10 +164,10 @@ namespace DemoDWS
             }
 
             // draw text
-            if (this.Text.Length > 0)
-            {
-                g.DrawString(this.Text, this.Font, Brushes.Black, 5, this.Height - 20);
-            }
+            //if (this.Text.Length > 0)
+            //{
+            //    g.DrawString(this.Text, this.Font, Brushes.Black, 5, this.Height - 20);
+            //}
         }
     }
 

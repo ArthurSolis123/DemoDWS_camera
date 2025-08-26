@@ -30,13 +30,18 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
+using System.Net;
+using System.Net.Sockets;
+
+
 
 
 namespace DemoDWS
 {
-
+    
     public partial class Form1DWS : Form
     {
+        private UdpBroadcaster udpBroadcaster;
 
         #region VARIABLE
         private long _realImgCount = 0;
@@ -80,14 +85,45 @@ namespace DemoDWS
         /// </summary>
         private List<PlatformComponent> m_ComponentList = new List<PlatformComponent>();
 
+        // Camera slot mapping (full key and a short token for robust matching)
+        private string _leftKeyFull, _rightKeyFull;
+        private string _leftKeyToken, _rightKeyToken;
+
+        private int CodeHoldSeconds = 5;
+        private bool ShowNoRead = true;
+
+
+        private System.Windows.Forms.Timer _codeHoldTimerLeft;
+        private System.Windows.Forms.Timer _codeHoldTimerRight;
+
         #endregion  // VARIABLE
 
         #region FUNC
 
         public Form1DWS()
         {
-            //Console.WriteLine("initi");
+            
             InitializeComponent();
+
+
+            _codeHoldTimerLeft = new System.Windows.Forms.Timer();
+            _codeHoldTimerLeft.Interval = Math.Max(100, CodeHoldSeconds * 1000);
+            _codeHoldTimerLeft.Tick += (s, e) =>
+            {
+                // Clear (or keep a prefix if you like)
+                lblCode.Text = "noread";
+                _codeHoldTimerLeft.Stop();
+            };
+
+            _codeHoldTimerRight = new System.Windows.Forms.Timer();
+            _codeHoldTimerRight.Interval = Math.Max(100, CodeHoldSeconds * 1000);
+            _codeHoldTimerRight.Tick += (s, e) =>
+            {
+                label2.Text = "noread";
+                _codeHoldTimerRight.Stop();
+            };
+
+
 
             //Image display
             var m_imageDisplayArea = new ImageView();
@@ -99,6 +135,8 @@ namespace DemoDWS
 
             m_ComponentList.Add(m_imageDisplayArea);
             m_ComponentList.Add(m_imageSaver);
+
+            udpBroadcaster = new UdpBroadcaster("255.255.255.255", 9000);
         }
 
 
@@ -107,20 +145,12 @@ namespace DemoDWS
         /// </summary>
         private void getAllCameraInfos()
         {
-            System.Console.WriteLine("[getAllCameraInfos] asking SDK...");
+            
             LogHelper.Log.InfoFormat("[getAllCameraInfos]start getAllCameraInfos");
 
             var cameraInfoList = dwsManager.GetWorkCameraInfo();
             if (cameraInfoList != null)
             {
-                foreach (var cam in cameraInfoList)
-                {
-                    Console.WriteLine($"Camera: {cam.camDevExtraInfo}");
-                    Console.WriteLine($"  Model: {cam.camDevModelName}");
-                    Console.WriteLine($"  Vendor: {cam.camDevVendor}");
-                    // Check if it matches smart or industrial pattern
-                }
-                System.Console.WriteLine($"SUCCESS: Found {cameraInfoList.Count()} cameras");
                 LogHelper.Log.InfoFormat("The camera successfully obtains device information, the number of cameras {0}", cameraInfoList.Count());
                 var list = cameraInfoList.ToList();
 
@@ -129,7 +159,6 @@ namespace DemoDWS
                 {
                     if (cameraInfo == null)
                     {
-                        System.Console.WriteLine($"[Camera {idx}] ERROR: Camera info is null");
                         idx++;
                         continue;
                     }
@@ -137,17 +166,17 @@ namespace DemoDWS
                     var key = cameraInfo.camDevExtraInfo;
                     if (string.IsNullOrWhiteSpace(key))
                     {
-                        // System.Console.WriteLine($"[Camera {idx}] WARNING: Camera key is empty, using IP instead");
+
                     }
 
                     if (!camerInfoMap.ContainsKey(key))
                     {
                         camerInfoMap.Add(key, cameraInfo);
-                        // System.Console.WriteLine($"[Camera {idx}] Added to camera map with key: '{key}'");
+
                     }
                     else
                     {
-                        // System.Console.WriteLine($"[Camera {idx}] Already in camera map");
+
                     }
 
                     idx++;
@@ -155,18 +184,12 @@ namespace DemoDWS
             }
             else
             {
-                // System.Console.WriteLine("ERROR: No cameras found!");
                 LogHelper.Log.InfoFormat("The camera failed to obtain device information");
             }
 
             LogHelper.Log.InfoFormat("[getAllCameraInfos]end getAllCameraInfos");
 
-            // Print final camera map
-            //System.Console.WriteLine($"Final camera map contains {camerInfoMap.Keys.Count} cameras:");
-            foreach (var key in camerInfoMap.Keys)
-            {
-                //System.Console.WriteLine($"  - Camera key: '{key}'");
-            }
+
 
             var keys = camerInfoMap.Keys.ToList();
             if (keys.Count >= 2)
@@ -174,19 +197,23 @@ namespace DemoDWS
                 var leftKey = keys[0];
                 var rightKey = keys[1];
 
-                //System.Console.WriteLine($"Configuring display: LEFT='{leftKey}', RIGHT='{rightKey}'");
 
                 var imgView = m_ComponentList.OfType<ImageView>().FirstOrDefault();
                 if (imgView != null)
                 {
                     imgView.ConfigureCameraSlots(leftKey, rightKey);
-                    //Console.WriteLine($"[ROUTE] LEFT={leftKey}  RIGHT={rightKey}");
+                    _leftKeyFull = leftKey;
+                    _rightKeyFull = rightKey;
+                    _leftKeyToken = ExtractToken(leftKey);
+                    _rightKeyToken = ExtractToken(rightKey);
+
+                    // (Optional) Initialize labels with prefixes
+                    lblCode.Text = "noread";
+                    label2.Text = "noread";
+
                 }
             }
-            else
-            {
-                //System.Console.WriteLine($"ERROR: Need at least 2 cameras but only found {keys.Count}");
-            }
+
         }
 
         /// <summary>
@@ -242,7 +269,7 @@ namespace DemoDWS
         private void PackageInfoCallBack(object o, LogisticsCodeEventArgs e)
         {
             var n1 = Interlocked.Increment(ref _pkgCount);
-            Console.WriteLine($"[PackageInfo] #{n1} OutputResult={e.OutputResult} Camera='{e.CameraID}' Codes={string.Join(",", e.CodeList)}");
+
             try
             {
                 VolumeInfo vv = new VolumeInfo
@@ -290,15 +317,19 @@ namespace DemoDWS
                 string codes = string.Join(",", info.CodeList ?? new List<string>());
                 if (codes != "noread" && !string.IsNullOrEmpty(codes))
                 {
-                    Console.WriteLine($"===== BARCODE DETECTED from {info.CameraID} =====");
-                    Console.WriteLine($"Codes: {codes}");
+
+
+                    // Broadcast the barcode and camera IP
+                    udpBroadcaster.SendBarcode(codes, info.CameraID);
+
+                    LogTextOnUI($"{DateTime.Now:HH:mm:ss} - Barcode detected: {codes}");
                 }
                 else
                 {
                     // Only print occasionally to avoid spam
                     if (_pkgCount % 10 == 0)
                     {
-                        Console.WriteLine($"NOT DETECTED (attempt #{_pkgCount})");
+                        //Console.WriteLine($"NOT DETECTED (attempt #{_pkgCount})");
                     }
                 }
 
@@ -341,14 +372,10 @@ namespace DemoDWS
                 // }
                 if (e.OutputResult == 0)
                 {
-                    Console.WriteLine($"[BARCODE ONLY] Camera '{e.CameraID}': {codes}");
+                    //Console.WriteLine($"[BARCODE ONLY] Camera '{e.CameraID}': {codes}");
 
                     // Update UI for barcode-only results too
-                    this.BeginInvoke(new Action(() =>
-                    {
-                        lblCode.Text = $"Barcode: {codes}";
-                        LogTextOnUI($"{DateTime.Now:HH:mm:ss} - Barcode detected: {codes}");
-                    }));
+                    UpdateCameraLabels(info.CameraID, info.CodeList);
 
                     // Send to display components
                     foreach (var comp in m_ComponentList)
@@ -371,6 +398,72 @@ namespace DemoDWS
                 Console.WriteLine($"[PackageInfo] Error: {ex.Message}");
                 LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
             }
+        }
+        private void Form1DWS_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            udpBroadcaster.Close();
+        }
+        private static string ExtractToken(string key)
+        {
+            if (string.IsNullOrEmpty(key)) return key;
+            var parts = key.Split(':');
+            return parts.Length > 1 ? parts[parts.Length - 1].Trim() : key.Trim();
+        }
+
+        private bool IsLeftCamera(string key)
+        {
+            if (string.IsNullOrEmpty(key)) return false;
+            return (!string.IsNullOrEmpty(_leftKeyFull) && key == _leftKeyFull)
+                || (!string.IsNullOrEmpty(_leftKeyToken) && key.Contains(_leftKeyToken));
+        }
+
+        private bool IsRightCamera(string key)
+        {
+            if (string.IsNullOrEmpty(key)) return false;
+            return (!string.IsNullOrEmpty(_rightKeyFull) && key == _rightKeyFull)
+                || (!string.IsNullOrEmpty(_rightKeyToken) && key.Contains(_rightKeyToken));
+        }
+
+        private void SetLeftLabel(string codeText)
+        {
+            if (this.IsDisposed) return;
+            this.BeginInvoke(new Action(() =>
+            {
+                lblCode.Text = codeText;
+                _codeHoldTimerLeft.Stop();
+                _codeHoldTimerLeft.Interval = Math.Max(100, CodeHoldSeconds * 1000);
+                _codeHoldTimerLeft.Start();
+            }));
+        }
+
+        private void SetRightLabel(string codeText)
+        {
+            if (this.IsDisposed) return;
+            this.BeginInvoke(new Action(() =>
+            {
+                label2.Text = codeText;
+                _codeHoldTimerRight.Stop();
+                _codeHoldTimerRight.Interval = Math.Max(100, CodeHoldSeconds * 1000);
+                _codeHoldTimerRight.Start();
+            }));
+        }
+
+        private void UpdateCameraLabels(string cameraKey, IList<string> codes)
+        {
+            if (codes == null || codes.Count == 0) return;
+
+            // Join codes (you can customize formatting)
+            string codeJoint = string.Join(",", codes);
+
+            // Ignore explicit noread
+            if (string.Equals(codeJoint, "noread", StringComparison.OrdinalIgnoreCase))
+                return;
+
+            if (IsLeftCamera(cameraKey))
+                SetLeftLabel(codeJoint);
+            else if (IsRightCamera(cameraKey))
+                SetRightLabel(codeJoint);
+            // else: unknown camera; no label update
         }
 
         /// <summary>
@@ -417,8 +510,8 @@ namespace DemoDWS
                         //Display barcode information
                         this.BeginInvoke(new Action(() =>
                         {
-                            lblCode.Text = string.Format("Barcode content： {0}", codeJoint);
-                            lblCodeCount.Text = string.Format("Number of barcodes: {0} Weight: {1} g Length: {2} mm Width: {3} mm Height: {4} mm, Volume: {5} mm3", e.CodeList.Count, e.Weight, e.VolumeInfo.Length, e.VolumeInfo.Width, e.VolumeInfo.Height, e.VolumeInfo.Volume);
+                            UpdateCameraLabels(e.CameraID, e.CodeList);
+                            //lblCodeCount.Text = string.Format("Number of barcodes: {0} Weight: {1} g Length: {2} mm Width: {3} mm Height: {4} mm, Volume: {5} mm3", e.CodeList.Count, e.Weight, e.VolumeInfo.Length, e.VolumeInfo.Width, e.VolumeInfo.Height, e.VolumeInfo.Volume);
                             //Console.WriteLine($"[UI DEBUG] Labels updated successfully");
                         }));
 
@@ -501,6 +594,8 @@ namespace DemoDWS
                     foreach (var code in codeData.CodeList)
                     {
                         Console.WriteLine($"  Code: '{code}'");
+                        UpdateCameraLabels(codeData.Key, codeData.CodeList);
+
 
                         // Check if it's actually "noread"
                         if (code.ToLower() == "noread" && isSmartCamera)
@@ -931,9 +1026,57 @@ namespace DemoDWS
 
         #endregion  // EVENT
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tlpCameras_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         private void lblCode_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
     }
+    public class UdpBroadcaster
+    {
+        private UdpClient udpClient;
+        private string broadcastIp;
+        private int port;
+
+        public UdpBroadcaster(string broadcastIp, int port)
+        {
+            this.broadcastIp = broadcastIp;
+            this.port = port;
+            this.udpClient = new UdpClient();
+            this.udpClient.EnableBroadcast = true;
+        }
+
+        // Method to send barcode and camera IP over UDP
+        public void SendBarcode(string barcode, string cameraIp)
+        {
+            string message = $"{cameraIp}|{barcode}";  // Format: camera IP | barcode
+            byte[] data = Encoding.UTF8.GetBytes(message);
+
+            // Send data to the broadcast address and port
+            udpClient.Send(data, data.Length, new IPEndPoint(IPAddress.Parse(broadcastIp), port));
+            Console.WriteLine($"Broadcasting barcode: {barcode} from camera IP: {cameraIp}");
+        }
+
+        // Close the UDP client
+        public void Close()
+        {
+            udpClient.Close();
+        }
+    }
+
 }

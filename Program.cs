@@ -9,15 +9,14 @@ namespace DemoDWS
 {
     static class Program
     {
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool AllocConsole();
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
         static void Main()
         {
-            AllocConsole();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

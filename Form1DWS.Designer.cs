@@ -29,104 +29,62 @@
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			this.lblCodeCount = new System.Windows.Forms.Label();
 			this.btnClose = new System.Windows.Forms.Button();
-			this.lblCode = new System.Windows.Forms.Label();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.gbBasic = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
 			this.btnStart = new System.Windows.Forms.Button();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.listBoxLog = new System.Windows.Forms.ListBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.Pan_Dis = new System.Windows.Forms.Panel();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.tlpCameras = new System.Windows.Forms.TableLayoutPanel();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.lblCode = new System.Windows.Forms.Label();
 			this.gbBasic.SuspendLayout();
-			this.groupBox5.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.tlpCameras.SuspendLayout();
+			this.groupBox1.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// lblCodeCount
-			// 
-			this.lblCodeCount.AutoSize = true;
-			this.lblCodeCount.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblCodeCount.ForeColor = System.Drawing.Color.Red;
-			this.lblCodeCount.Location = new System.Drawing.Point(6, 68);
-			this.lblCodeCount.Name = "lblCodeCount";
-			this.lblCodeCount.Size = new System.Drawing.Size(152, 16);
-			this.lblCodeCount.TabIndex = 14;
-			this.lblCodeCount.Text = "Number of barcodes";
 			// 
 			// btnClose
 			// 
-			this.btnClose.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnClose.Location = new System.Drawing.Point(84, 39);
+			this.btnClose.BackColor = System.Drawing.SystemColors.Window;
+			this.btnClose.Font = new System.Drawing.Font("SimSun", 16F);
+			this.btnClose.Location = new System.Drawing.Point(333, 40);
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(74, 54);
+			this.btnClose.Size = new System.Drawing.Size(314, 54);
 			this.btnClose.TabIndex = 12;
 			this.btnClose.Text = "Close DWS";
-			this.btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.UseVisualStyleBackColor = false;
 			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-			// 
-			// lblCode
-			// 
-			this.lblCode.AutoSize = true;
-			this.lblCode.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblCode.ForeColor = System.Drawing.Color.Red;
-			this.lblCode.Location = new System.Drawing.Point(6, 34);
-			this.lblCode.Name = "lblCode";
-			this.lblCode.Size = new System.Drawing.Size(128, 16);
-			this.lblCode.TabIndex = 11;
-			this.lblCode.Text = "Barcode content";
-			this.lblCode.Click += new System.EventHandler(this.lblCode_Click);
 			// 
 			// gbBasic
 			// 
-			this.gbBasic.Controls.Add(this.button1);
 			this.gbBasic.Controls.Add(this.btnStart);
 			this.gbBasic.Controls.Add(this.btnClose);
-			this.gbBasic.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.gbBasic.Font = new System.Drawing.Font("SimSun", 18F);
 			this.gbBasic.Location = new System.Drawing.Point(6, 126);
 			this.gbBasic.Name = "gbBasic";
-			this.gbBasic.Size = new System.Drawing.Size(242, 100);
+			this.gbBasic.Size = new System.Drawing.Size(653, 100);
 			this.gbBasic.TabIndex = 16;
 			this.gbBasic.TabStop = false;
 			this.gbBasic.Text = "Basic Operation";
 			// 
-			// button1
-			// 
-			this.button1.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.button1.Location = new System.Drawing.Point(164, 39);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(72, 54);
-			this.button1.TabIndex = 13;
-			this.button1.Text = "Soft Trigger";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
 			// btnStart
 			// 
-			this.btnStart.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnStart.Location = new System.Drawing.Point(6, 39);
+			this.btnStart.BackColor = System.Drawing.SystemColors.Window;
+			this.btnStart.Font = new System.Drawing.Font("SimSun", 16F);
+			this.btnStart.Location = new System.Drawing.Point(6, 40);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(72, 54);
+			this.btnStart.Size = new System.Drawing.Size(321, 54);
 			this.btnStart.TabIndex = 10;
 			this.btnStart.Text = "Start DWS";
-			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.UseVisualStyleBackColor = false;
 			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-			// 
-			// groupBox5
-			// 
-			this.groupBox5.Controls.Add(this.lblCode);
-			this.groupBox5.Controls.Add(this.lblCodeCount);
-			this.groupBox5.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.groupBox5.Location = new System.Drawing.Point(6, 7);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(657, 100);
-			this.groupBox5.TabIndex = 17;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "Current barcode";
 			// 
 			// listBoxLog
 			// 
@@ -137,7 +95,7 @@
 			this.listBoxLog.ItemHeight = 16;
 			this.listBoxLog.Location = new System.Drawing.Point(3, 22);
 			this.listBoxLog.Name = "listBoxLog";
-			this.listBoxLog.Size = new System.Drawing.Size(647, 194);
+			this.listBoxLog.Size = new System.Drawing.Size(647, 75);
 			this.listBoxLog.TabIndex = 19;
 			// 
 			// groupBox4
@@ -147,9 +105,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox4.Controls.Add(this.listBoxLog);
 			this.groupBox4.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.groupBox4.Location = new System.Drawing.Point(669, 7);
+			this.groupBox4.Location = new System.Drawing.Point(669, 126);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(653, 219);
+			this.groupBox4.Size = new System.Drawing.Size(653, 100);
 			this.groupBox4.TabIndex = 20;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "DWS Run Log";
@@ -170,11 +128,80 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Controls.Add(this.groupBox4);
 			this.panel1.Controls.Add(this.gbBasic);
-			this.panel1.Controls.Add(this.groupBox5);
+			this.panel1.Controls.Add(this.tlpCameras);
 			this.panel1.Location = new System.Drawing.Point(8, 568);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(1330, 231);
 			this.panel1.TabIndex = 21;
+			// 
+			// tlpCameras
+			// 
+			this.tlpCameras.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tlpCameras.ColumnCount = 2;
+			this.tlpCameras.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlpCameras.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlpCameras.Controls.Add(this.groupBox1, 1, 0);
+			this.tlpCameras.Controls.Add(this.groupBox5, 0, 0);
+			this.tlpCameras.Location = new System.Drawing.Point(6, 0);
+			this.tlpCameras.Margin = new System.Windows.Forms.Padding(0);
+			this.tlpCameras.Name = "tlpCameras";
+			this.tlpCameras.RowCount = 1;
+			this.tlpCameras.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tlpCameras.Size = new System.Drawing.Size(1318, 123);
+			this.tlpCameras.TabIndex = 21;
+			this.tlpCameras.Paint += new System.Windows.Forms.PaintEventHandler(this.tlpCameras_Paint);
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.label2);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupBox1.Font = new System.Drawing.Font("SimSun", 18F);
+			this.groupBox1.Location = new System.Drawing.Point(665, 6);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(647, 111);
+			this.groupBox1.TabIndex = 18;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Camera 2";
+			this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("SimSun", 30F);
+			this.label2.ForeColor = System.Drawing.Color.Black;
+			this.label2.Location = new System.Drawing.Point(6, 40);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(0, 40);
+			this.label2.TabIndex = 10;
+			this.label2.UseMnemonic = false;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.lblCode);
+			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupBox5.Font = new System.Drawing.Font("SimSun", 18F);
+			this.groupBox5.Location = new System.Drawing.Point(6, 6);
+			this.groupBox5.Margin = new System.Windows.Forms.Padding(6);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(647, 111);
+			this.groupBox5.TabIndex = 17;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Text = "Camera 1";
+			this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
+			// 
+			// lblCode
+			// 
+			this.lblCode.AutoSize = true;
+			this.lblCode.Font = new System.Drawing.Font("SimSun", 30F);
+			this.lblCode.ForeColor = System.Drawing.Color.Black;
+			this.lblCode.Location = new System.Drawing.Point(6, 40);
+			this.lblCode.Name = "lblCode";
+			this.lblCode.Size = new System.Drawing.Size(0, 40);
+			this.lblCode.TabIndex = 10;
+			this.lblCode.UseMnemonic = false;
+			this.lblCode.Click += new System.EventHandler(this.lblCode_Click);
 			// 
 			// Form1DWS
 			// 
@@ -189,28 +216,31 @@
 			this.Text = "Scan the code to demonstrate";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
 			this.gbBasic.ResumeLayout(false);
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.tlpCameras.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
 			this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblCodeCount;
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Label lblCode;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.GroupBox gbBasic;
-        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ListBox listBoxLog;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel Pan_Dis;
         private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button btnStart;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.Label lblCode;
+		private System.Windows.Forms.TableLayoutPanel tlpCameras;
 	}
 }
 
