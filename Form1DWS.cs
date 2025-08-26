@@ -407,6 +407,48 @@ namespace DemoDWS
                 LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
             }
         }
+        private void deepCameraDiscoveryDebug()
+        {
+            Console.WriteLine("=== DEEP CAMERA DISCOVERY DEBUG ===");
+
+            // Check what the SDK actually sees
+            var workCameras = dwsManager.GetWorkCameraInfo();
+            var statusCameras = dwsManager.GetCamerasStatus();
+
+            Console.WriteLine($"GetWorkCameraInfo() returned: {(workCameras?.Count() ?? 0)} cameras");
+            if (workCameras != null)
+            {
+                int i = 0;
+                foreach (var cam in workCameras)
+                {
+                    Console.WriteLine($"  Work Camera {i}:");
+                    Console.WriteLine($"    - ExtraInfo: '{cam.camDevExtraInfo}'");
+                    Console.WriteLine($"    - Vendor: '{cam.camDevVendor}'");
+                    Console.WriteLine($"    - Model: '{cam.camDevModelName}'");
+                    Console.WriteLine($"    - Serial: '{cam.camDevSerialNumber}'");
+                    Console.WriteLine($"    - DevID: '{cam.camDevID}'");
+
+                    i++;
+                }
+            }
+
+            Console.WriteLine($"GetCamerasStatus() returned: {(statusCameras?.Count() ?? 0)} cameras");
+            if (statusCameras != null)
+            {
+                int i = 0;
+                foreach (var cam in statusCameras)
+                {
+                    Console.WriteLine($"  Status Camera {i}:");
+                    Console.WriteLine($"    - Key: '{cam.key}'");
+                    Console.WriteLine($"    - UserID: '{cam.deviceUserID}'");
+                    Console.WriteLine($"    - Online: {cam.isOnline}");
+                    i++;
+                }
+            }
+
+            Console.WriteLine("=== END DEEP DEBUG ===");
+        }
+
 
         /// <summary>
         /// Specific methods for processing package information, such as displaying barcode information, original image, cutout, weight, volume
@@ -755,6 +797,7 @@ namespace DemoDWS
             getAllCameraStatus();
             checkCameraConfiguration(); // ADD THIS LINE
             checkBothCamerasStatus(); // ADD THIS LINE
+            deepCameraDiscoveryDebug(); // ADD THIS
 
         }
 
