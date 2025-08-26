@@ -113,6 +113,13 @@ namespace DemoDWS
             var cameraInfoList = dwsManager.GetWorkCameraInfo();
             if (cameraInfoList != null)
             {
+                foreach (var cam in cameraInfoList)
+                {
+                    Console.WriteLine($"Camera: {cam.camDevExtraInfo}");
+                    Console.WriteLine($"  Model: {cam.camDevModelName}");
+                    Console.WriteLine($"  Vendor: {cam.camDevVendor}");
+                    // Check if it matches smart or industrial pattern
+                }
                 System.Console.WriteLine($"SUCCESS: Found {cameraInfoList.Count()} cameras");
                 LogHelper.Log.InfoFormat("The camera successfully obtains device information, the number of cameras {0}", cameraInfoList.Count());
                 var list = cameraInfoList.ToList();
@@ -235,7 +242,7 @@ namespace DemoDWS
         private void PackageInfoCallBack(object o, LogisticsCodeEventArgs e)
         {
             var n1 = Interlocked.Increment(ref _pkgCount);
-            //Console.WriteLine($"[PackageInfo] {DateTime.Now:HH:mm:ss.fff} got package result #{n1}");
+            Console.WriteLine($"[PackageInfo] #{n1} OutputResult={e.OutputResult} Camera='{e.CameraID}' Codes={string.Join(",", e.CodeList)}");
             try
             {
                 VolumeInfo vv = new VolumeInfo
@@ -308,28 +315,60 @@ namespace DemoDWS
                     }
                 }
 
-                if (e.OutputResult != 0)
-                {
-                    if (camerInfoMap.ContainsKey(info.CameraID))
-                    {
-                        int i = 0;
-                        CameraInfo cameraInfo = camerInfoMap[info.CameraID];
+                //     if (e.OutputResult != 0)
+                //     {
+                //         if (camerInfoMap.ContainsKey(info.CameraID))
+                //         {
+                //             int i = 0;
+                //             CameraInfo cameraInfo = camerInfoMap[info.CameraID];
 
-                        LogHelper.Log.InfoFormat("[test cameraInfo]Camera{0} device information device.camDevID：{1}， device.camDevModelName：{2}， device.camDevSerialNumber：{3}, device.camDevVendor：{4}， device.camDevFirewareVersion：{5}， device.camDevExtraInfo：{6}"
-                           , i, cameraInfo.camDevID, cameraInfo.camDevModelName, cameraInfo.camDevSerialNumber, cameraInfo.camDevVendor, cameraInfo.camDevFirewareVersion, cameraInfo.camDevExtraInfo);
+                //             LogHelper.Log.InfoFormat("[test cameraInfo]Camera{0} device information device.camDevID：{1}， device.camDevModelName：{2}， device.camDevSerialNumber：{3}, device.camDevVendor：{4}， device.camDevFirewareVersion：{5}， device.camDevExtraInfo：{6}"
+                //                , i, cameraInfo.camDevID, cameraInfo.camDevModelName, cameraInfo.camDevSerialNumber, cameraInfo.camDevVendor, cameraInfo.camDevFirewareVersion, cameraInfo.camDevExtraInfo);
+                //         }
+                //     }
+
+                //     //Name barcode information according to orientation, barcode type, barcode content ---The second way to print barcode
+                //     {
+                //         string codeInfo = Utils.AppendString1(e.CodesInfo);
+                //         LogHelper.Log.InfoFormat("[testlog][allCodeInfo]curretn code size:{0} , info is {1}", e.CodesInfo.Length, codeInfo);
+                //     }
+
+
+                // }
+                // catch (Exception ex)
+                // {
+                //     LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
+                // }
+                if (e.OutputResult == 0)
+                {
+                    Console.WriteLine($"[BARCODE ONLY] Camera '{e.CameraID}': {codes}");
+
+                    // Update UI for barcode-only results too
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        lblCode.Text = $"Barcode: {codes}";
+                        LogTextOnUI($"{DateTime.Now:HH:mm:ss} - Barcode detected: {codes}");
+                    }));
+
+                    // Send to display components
+                    foreach (var comp in m_ComponentList)
+                    {
+                        comp.OnPacketResultReached(this, info);
                     }
                 }
 
-                //Name barcode information according to orientation, barcode type, barcode content ---The second way to print barcode
+                // Add to queue for both results
+                lock (packageItems)
                 {
-                    string codeInfo = Utils.AppendString1(e.CodesInfo);
-                    LogHelper.Log.InfoFormat("[testlog][allCodeInfo]curretn code size:{0} , info is {1}", e.CodesInfo.Length, codeInfo);
+                    if (packageItems.Count < MAXQUEUESIZE)
+                    {
+                        packageItems.Enqueue(info);
+                    }
                 }
-
-
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[PackageInfo] Error: {ex.Message}");
                 LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
             }
         }
@@ -450,11 +489,37 @@ namespace DemoDWS
 
             foreach (var codeData in infoArgs.SingleCameraCodeInfoList)
             {
+                bool isSmartCamera = codeData.Key.Contains("7F0210EPAK00040");
+
+                Console.WriteLine($"\n[AllCamera] Camera: {codeData.Key}");
+                Console.WriteLine($"  Is Smart Camera: {isSmartCamera}");
+                Console.WriteLine($"  Code Count: {codeData.CodeList.Count}");
                 //Console.WriteLine($"[AllCameraCodeInfo] Camera: '{codeData.Key}'");
                 //Console.WriteLine($"  - Codes found: {codeData.CodeList.Count}");
+                if (codeData.CodeList.Count > 0)
+                {
+                    foreach (var code in codeData.CodeList)
+                    {
+                        Console.WriteLine($"  Code: '{code}'");
 
+                        // Check if it's actually "noread"
+                        if (code.ToLower() == "noread" && isSmartCamera)
+                        {
+                            Console.WriteLine("  >> SMART CAMERA ISSUE: Returning 'noread'");
+                            Console.WriteLine("  >> Check: Is barcode visible to camera?");
+                            Console.WriteLine("  >> Check: Is smart camera in correct mode?");
+                            Console.WriteLine("  >> Check: Smart camera internal settings");
+                        }
+                    }
+                }
+
+                // Log image info
+                if (codeData.OriginalImage.ImageData != IntPtr.Zero)
+                {
+                    Console.WriteLine($"  Image: {codeData.OriginalImage.width}x{codeData.OriginalImage.height}");
+                }
                 // Check if image data exists (VslbImage type)
-                bool hasImage = (codeData.OriginalImage.ImageData != IntPtr.Zero && codeData.OriginalImage.dataSize > 0);
+                bool hasImage = codeData.OriginalImage.ImageData != IntPtr.Zero && codeData.OriginalImage.dataSize > 0;
                 //Console.WriteLine($"  - Has image: {(hasImage ? "YES" : "NO")}");
 
                 if (hasImage)
@@ -492,7 +557,39 @@ namespace DemoDWS
                 }
             }
         }
+        private void DiagnoseCameraCapabilities()
+        {
+            Console.WriteLine("\n=== CAMERA CAPABILITY DIAGNOSTICS ===");
 
+            // Check camera types based on your configuration
+            var workCameras = dwsManager.GetWorkCameraInfo();
+            if (workCameras != null)
+            {
+                foreach (var cam in workCameras)
+                {
+                    bool isSmartCamera = cam.camDevExtraInfo.Contains("7F0210EPAK00040");
+                    string cameraType = isSmartCamera ? "SMART" : "INDUSTRIAL";
+
+                    Console.WriteLine($"Camera: {cam.camDevExtraInfo}");
+                    Console.WriteLine($"  Type: {cameraType}");
+                    Console.WriteLine($"  Expected behavior:");
+
+                    if (isSmartCamera)
+                    {
+                        Console.WriteLine("    - Internal barcode processing");
+                        Console.WriteLine("    - Direct barcode output");
+                        Console.WriteLine("    - Should NOT use BarCode algorithm");
+                    }
+                    else
+                    {
+                        Console.WriteLine("    - Requires BarCode algorithm");
+                        Console.WriteLine("    - SDK processes images for barcodes");
+                    }
+                }
+            }
+
+            Console.WriteLine("=== END DIAGNOSTICS ===\n");
+        }
         /// <summary>
         ///After the package is finished, Ipc camera and barcode puzzle information callback
         /// </summary>
@@ -681,7 +778,9 @@ namespace DemoDWS
 
             //Get all camera device information
             getAllCameraInfos();
+            DiagnoseCameraCapabilities();
             getAllCameraStatus();
+
 
         }
 
