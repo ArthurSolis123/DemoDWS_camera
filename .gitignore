@@ -1,5 +1,4 @@
 # Build & IDE
-bin/
 obj/
 .vs/
 *.user

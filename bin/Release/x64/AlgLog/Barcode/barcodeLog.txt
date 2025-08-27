@@ -1,0 +1,275 @@
+[Wed Aug 27 10:23:09 2025, 10164][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:23:09 2025, 10164][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:23:09 2025, 10164]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:23:09 2025, 10164][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:23:09 2025, 10164][bcInit][104727577, 104727577]
+[Wed Aug 27 10:26:11 2025, 32824][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:26:11 2025, 32824][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:26:11 2025, 32824]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:26:11 2025, 32824][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:26:11 2025, 32824][bcInit][104727577, 104727577]
+[Wed Aug 27 10:26:35 2025, 6608][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:26:35 2025, 6608][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:26:36 2025, 6608]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:26:36 2025, 6608][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:26:36 2025, 6608][bcInit][104727577, 104727577]
+[Wed Aug 27 10:27:07 2025, 40164][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:27:08 2025, 40164][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:27:08 2025, 40164]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:27:08 2025, 40164][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:27:08 2025, 40164][bcInit][104727577, 104727577]
+[Wed Aug 27 10:28:24 2025, 40140][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:28:24 2025, 40140][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:28:24 2025, 40140]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:28:24 2025, 40140][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:28:24 2025, 40140][bcInit][104727577, 104727577]
+[Wed Aug 27 10:30:57 2025, 32864][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:30:57 2025, 32864][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:30:57 2025, 32864]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:30:57 2025, 32864][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:30:57 2025, 32864][bcInit][104727577, 104727577]
+[Wed Aug 27 10:33:41 2025, 23608][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:33:41 2025, 23608][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:33:41 2025, 23608]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:33:41 2025, 23608][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:33:41 2025, 23608][bcInit][104727577, 104727577]
+[Wed Aug 27 10:34:37 2025, 35648][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:34:37 2025, 35648][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:34:37 2025, 35648]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:34:37 2025, 35648][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:34:37 2025, 35648][bcInit][104727577, 104727577]
+[Wed Aug 27 10:36:50 2025, 39180][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:36:50 2025, 39180][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:36:50 2025, 39180]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:36:50 2025, 39180][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:36:50 2025, 39180][bcInit][104727577, 104727577]
+[Wed Aug 27 10:59:01 2025, 37304][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:59:01 2025, 37304][bcInit]disenable multiframe checkout
+[Wed Aug 27 10:59:01 2025, 37304]pixelShiftThresh is -1.000000
+[Wed Aug 27 10:59:01 2025, 37304][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 10:59:01 2025, 37304][bcInit][104727577, 104727577]
+[Wed Aug 27 11:01:09 2025, 40160][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:01:09 2025, 40160][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:01:09 2025, 40160]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:01:09 2025, 40160][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:01:09 2025, 40160][bcInit][104727577, 104727577]
+[Wed Aug 27 11:11:23 2025, 16332][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:11:23 2025, 16332][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:11:23 2025, 16332]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:11:23 2025, 16332][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:11:23 2025, 16332][bcInit][104727577, 104727577]
+[Wed Aug 27 11:11:59 2025, 38496][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:11:59 2025, 38496][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:11:59 2025, 38496]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:11:59 2025, 38496][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:11:59 2025, 38496][bcInit][104727577, 104727577]
+[Wed Aug 27 11:12:50 2025, 32336][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:12:50 2025, 32336][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:12:50 2025, 32336]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:12:50 2025, 32336][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:12:50 2025, 32336][bcInit][104727577, 104727577]
+[Wed Aug 27 11:13:57 2025, 31048][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:13:57 2025, 31048][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:13:57 2025, 31048]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:13:57 2025, 31048][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:13:57 2025, 31048][bcInit][104727577, 104727577]
+[Wed Aug 27 11:16:20 2025, 7660][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:16:20 2025, 7660][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:16:20 2025, 7660]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:16:20 2025, 7660][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:16:20 2025, 7660][bcInit][104727577, 104727577]
+[Wed Aug 27 11:23:15 2025, 20352][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:23:15 2025, 20352][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:23:15 2025, 20352]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:23:15 2025, 20352][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:23:15 2025, 20352][bcInit][104727577, 104727577]
+[Wed Aug 27 11:32:27 2025, 38316][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:32:27 2025, 38316][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:32:27 2025, 38316]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:32:27 2025, 38316][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:32:27 2025, 38316][bcInit][104727577, 104727577]
+[Wed Aug 27 11:33:08 2025, 18264][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:33:08 2025, 18264][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:33:08 2025, 18264]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:33:08 2025, 18264][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:33:08 2025, 18264][bcInit][104727577, 104727577]
+[Wed Aug 27 11:34:44 2025, 18620][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:34:44 2025, 18620][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:34:44 2025, 18620]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:34:44 2025, 18620][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:34:44 2025, 18620][bcInit][104727577, 104727577]
+[Wed Aug 27 11:35:45 2025, 20880][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:35:45 2025, 20880][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:35:45 2025, 20880]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:35:45 2025, 20880][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:35:45 2025, 20880][bcInit][104727577, 104727577]
+[Wed Aug 27 11:38:57 2025, 10872][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:38:57 2025, 10872][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:38:57 2025, 10872]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:38:58 2025, 10872][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:38:58 2025, 10872][bcInit][104727577, 104727577]
+[Wed Aug 27 11:45:19 2025, 17916][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:45:19 2025, 17916][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:45:19 2025, 17916]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:45:19 2025, 17916][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:45:19 2025, 17916][bcInit][104727577, 104727577]
+[Wed Aug 27 11:47:12 2025, 24980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:47:12 2025, 24980][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:47:12 2025, 24980]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:47:12 2025, 24980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:47:12 2025, 24980][bcInit][104727577, 104727577]
+[Wed Aug 27 11:48:28 2025, 30136][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:48:28 2025, 30136][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:48:28 2025, 30136]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:48:28 2025, 30136][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:48:29 2025, 30136][bcInit][104727577, 104727577]
+[Wed Aug 27 11:50:55 2025, 22380][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:50:55 2025, 22380][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:50:55 2025, 22380]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:50:55 2025, 22380][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:50:55 2025, 22380][bcInit][104727577, 104727577]
+[Wed Aug 27 11:55:46 2025, 29228][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:55:46 2025, 29228][bcInit]disenable multiframe checkout
+[Wed Aug 27 11:55:46 2025, 29228]pixelShiftThresh is -1.000000
+[Wed Aug 27 11:55:46 2025, 29228][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 11:55:46 2025, 29228][bcInit][104727577, 104727577]
+[Wed Aug 27 12:00:29 2025, 25688][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:00:29 2025, 25688][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:00:29 2025, 25688]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:00:29 2025, 25688][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:00:29 2025, 25688][bcInit][104727577, 104727577]
+[Wed Aug 27 12:03:54 2025, 6412][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:03:54 2025, 6412][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:03:54 2025, 6412]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:03:54 2025, 6412][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:03:54 2025, 6412][bcInit][104727577, 104727577]
+[Wed Aug 27 12:04:39 2025, 41844][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:04:39 2025, 41844][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:04:39 2025, 41844]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:04:39 2025, 41844][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:04:39 2025, 41844][bcInit][104727577, 104727577]
+[Wed Aug 27 12:05:13 2025, 38044][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:05:13 2025, 38044][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:05:13 2025, 38044]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:05:13 2025, 38044][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:05:13 2025, 38044][bcInit][104727577, 104727577]
+[Wed Aug 27 12:06:36 2025, 38796][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:06:36 2025, 38796][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:06:36 2025, 38796]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:06:36 2025, 38796][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:06:36 2025, 38796][bcInit][104727577, 104727577]
+[Wed Aug 27 12:24:13 2025, 18256][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:24:13 2025, 18256][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:24:13 2025, 18256]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:24:13 2025, 18256][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:24:13 2025, 18256][bcInit][104727577, 104727577]
+[Wed Aug 27 12:25:33 2025, 5596][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:25:33 2025, 5596][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:25:33 2025, 5596]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:25:33 2025, 5596][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:25:33 2025, 5596][bcInit][104727577, 104727577]
+[Wed Aug 27 12:49:26 2025, 30856][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:49:26 2025, 30856][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:49:26 2025, 30856]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:49:26 2025, 30856][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:49:26 2025, 30856][bcInit][104727577, 104727577]
+[Wed Aug 27 12:50:18 2025, 29776][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:50:18 2025, 29776][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:50:18 2025, 29776]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:50:18 2025, 29776][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:50:18 2025, 29776][bcInit][104727577, 104727577]
+[Wed Aug 27 12:51:35 2025, 8968][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:51:35 2025, 8968][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:51:35 2025, 8968]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:51:35 2025, 8968][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:51:35 2025, 8968][bcInit][104727577, 104727577]
+[Wed Aug 27 12:56:02 2025, 7280][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:56:02 2025, 7280][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:56:02 2025, 7280]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:56:02 2025, 7280][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:56:02 2025, 7280][bcInit][104727577, 104727577]
+[Wed Aug 27 12:56:14 2025, 38952][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:56:14 2025, 38952][bcInit]disenable multiframe checkout
+[Wed Aug 27 12:56:14 2025, 38952]pixelShiftThresh is -1.000000
+[Wed Aug 27 12:56:14 2025, 38952][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 12:56:14 2025, 38952][bcInit][104727577, 104727577]
+[Wed Aug 27 15:04:46 2025, 42980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:04:46 2025, 42980][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:04:46 2025, 42980]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:04:46 2025, 42980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:04:46 2025, 42980][bcInit][104727577, 104727577]
+[Wed Aug 27 15:05:03 2025, 42980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:05:03 2025, 42980][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:05:03 2025, 42980]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:05:03 2025, 42980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:05:03 2025, 42980][bcInit][104727577, 104727577]
+[Wed Aug 27 15:05:19 2025, 42980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:05:19 2025, 42980][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:05:19 2025, 42980]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:05:19 2025, 42980][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:05:19 2025, 42980][bcInit][104727577, 104727577]
+[Wed Aug 27 15:05:31 2025, 10460][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:05:31 2025, 10460][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:05:31 2025, 10460]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:05:31 2025, 10460][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:05:31 2025, 10460][bcInit][104727577, 104727577]
+[Wed Aug 27 15:07:25 2025, 26012][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:07:25 2025, 26012][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:07:25 2025, 26012]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:07:25 2025, 26012][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:07:25 2025, 26012][bcInit][104727577, 104727577]
+[Wed Aug 27 15:16:38 2025, 16004][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:16:38 2025, 16004][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:16:38 2025, 16004]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:16:38 2025, 16004][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:16:38 2025, 16004][bcInit][104727577, 104727577]
+[Wed Aug 27 15:17:27 2025, 14400][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:17:27 2025, 14400][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:17:27 2025, 14400]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:17:27 2025, 14400][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:17:27 2025, 14400][bcInit][104727577, 104727577]
+[Wed Aug 27 15:34:30 2025, 28044][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:34:30 2025, 28044][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:34:30 2025, 28044]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:34:30 2025, 28044][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:34:30 2025, 28044][bcInit][104727577, 104727577]
+[Wed Aug 27 15:37:18 2025, 34260][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:37:18 2025, 34260][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:37:18 2025, 34260]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:37:18 2025, 34260][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:37:18 2025, 34260][bcInit][104727577, 104727577]
+[Wed Aug 27 15:43:18 2025, 17820][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:43:18 2025, 17820][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:43:18 2025, 17820]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:43:18 2025, 17820][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:43:18 2025, 17820][bcInit][104727577, 104727577]
+[Wed Aug 27 15:46:13 2025, 30460][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:46:13 2025, 30460][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:46:13 2025, 30460]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:46:13 2025, 30460][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:46:13 2025, 30460][bcInit][104727577, 104727577]
+[Wed Aug 27 15:46:48 2025, 26884][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:46:48 2025, 26884][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:46:48 2025, 26884]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:46:48 2025, 26884][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:46:48 2025, 26884][bcInit][104727577, 104727577]
+[Wed Aug 27 15:47:52 2025, 3200][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:47:52 2025, 3200][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:47:52 2025, 3200]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:47:52 2025, 3200][bcCalMemSize_svn353629][3072, 2048]bufSize = 99
+[Wed Aug 27 15:47:52 2025, 3200][bcInit][104727577, 104727577]
+[Wed Aug 27 15:48:36 2025, 24888][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:48:36 2025, 24888][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:48:36 2025, 24888]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:48:36 2025, 24888][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:48:36 2025, 24888][bcInit][189947193, 189947193]
+[Wed Aug 27 15:52:09 2025, 40064][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:52:09 2025, 40064][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:52:09 2025, 40064]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:52:09 2025, 40064][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:52:09 2025, 40064][bcInit][189947193, 189947193]
+[Wed Aug 27 15:52:42 2025, 36964][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:52:42 2025, 36964][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:52:42 2025, 36964]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:52:42 2025, 36964][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:52:42 2025, 36964][bcInit][189947193, 189947193]
