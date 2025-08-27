@@ -43,8 +43,6 @@ namespace DemoDWS
         private UdpBroadcaster udpBroadcaster;
 
         private string default_text = "No detection";
-        //Image count
-        private long _realImgCount = 0;
 
         // Maximum limit for queues
         private const int MAXQUEUESIZE = 64;
@@ -78,9 +76,6 @@ namespace DemoDWS
 
         //Hold timer for left barcode on the UI
         private System.Windows.Forms.Timer _codeHoldTimerRight;
-
-        //Package Count
-        private long _pkgCount = 0;
 
         #endregion  // VARIABLE
 
@@ -358,7 +353,7 @@ namespace DemoDWS
                 // Simple barcode detection check
                 string codes = string.Join(",", info.CodeList ?? new List<string>());
 
-                if (codes != default_text && !string.IsNullOrEmpty(codes))
+                if (codes != "noread" && !string.IsNullOrEmpty(codes))
                 {
                     // Broadcast the barcode and camera IP
                     udpBroadcaster.SendBarcode(codes, info.CameraID);

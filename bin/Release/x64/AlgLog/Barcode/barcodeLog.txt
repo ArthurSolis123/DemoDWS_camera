@@ -273,3 +273,33 @@
 [Wed Aug 27 15:52:42 2025, 36964]pixelShiftThresh is -1.000000
 [Wed Aug 27 15:52:42 2025, 36964][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
 [Wed Aug 27 15:52:42 2025, 36964][bcInit][189947193, 189947193]
+[Wed Aug 27 15:55:30 2025, 16220][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:55:30 2025, 16220][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:55:30 2025, 16220]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:55:30 2025, 16220][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:55:30 2025, 16220][bcInit][189947193, 189947193]
+[Wed Aug 27 15:57:23 2025, 29976][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:57:23 2025, 29976][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:57:23 2025, 29976]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:57:23 2025, 29976][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:57:23 2025, 29976][bcInit][189947193, 189947193]
+[Wed Aug 27 15:58:27 2025, 28992][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:58:27 2025, 28992][bcInit]disenable multiframe checkout
+[Wed Aug 27 15:58:27 2025, 28992]pixelShiftThresh is -1.000000
+[Wed Aug 27 15:58:27 2025, 28992][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 15:58:27 2025, 28992][bcInit][189947193, 189947193]
+[Wed Aug 27 16:00:27 2025, 28888][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 16:00:27 2025, 28888][bcInit]disenable multiframe checkout
+[Wed Aug 27 16:00:27 2025, 28888]pixelShiftThresh is -1.000000
+[Wed Aug 27 16:00:27 2025, 28888][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 16:00:27 2025, 28888][bcInit][189947193, 189947193]
+[Wed Aug 27 16:01:08 2025, 22800][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 16:01:08 2025, 22800][bcInit]disenable multiframe checkout
+[Wed Aug 27 16:01:08 2025, 22800]pixelShiftThresh is -1.000000
+[Wed Aug 27 16:01:08 2025, 22800][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 16:01:08 2025, 22800][bcInit][189947193, 189947193]
+[Wed Aug 27 16:06:19 2025, 29948][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 16:06:19 2025, 29948][bcInit]disenable multiframe checkout
+[Wed Aug 27 16:06:19 2025, 29948]pixelShiftThresh is -1.000000
+[Wed Aug 27 16:06:19 2025, 29948][bcCalMemSize_svn353629][4000, 3000]bufSize = 181
+[Wed Aug 27 16:06:19 2025, 29948][bcInit][189947193, 189947193]
