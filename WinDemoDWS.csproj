@@ -103,21 +103,18 @@
       <DependentUpon>Form1DWS.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageHelper.cs" />
-    <Compile Include="ImageSaver.cs" />
     <Compile Include="ImageView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ImageView.Designer.cs">
       <DependentUpon>ImageView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageWrapper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="PlatformComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
     <Compile Include="VideoWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>

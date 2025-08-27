@@ -7,9 +7,7 @@ namespace DemoDWS
 {
     public class LogHelper
     {
-        /// <summary>
-        /// Log实例，用于打日志
-        /// </summary>
+        /// Log instance, used to log
         public static log4net.ILog Log = log4net.LogManager.GetLogger("MV Log");
     }
 }

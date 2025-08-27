@@ -41,18 +41,16 @@ namespace DemoDWS
                 float rate = Math.Min(rateX, rateY);
 
                 // draw image
-                //按照图片宽高和控件宽高比小的那个，显示图片
+                //Display the picture according to the one with a smaller aspect ratio of the image and the control
                 var targetSize = new SizeF(Image.Width * rate, Image.Height * rate).ToSize();
-                //图片在控件全屏显示
-                //var targetSize = size;
+
+                //Pictures are displayed in full screen on the control
                 var loc = new Point((size.Width - targetSize.Width) / 2, (size.Height - targetSize.Height) / 2);
                 g.DrawImage(Image, new Rectangle(loc, targetSize), new Rectangle(Point.Empty, Image.Size), GraphicsUnit.Pixel);
 
                 // draw overlays
-                //Console.WriteLine($"[PAINT DEBUG] Drawing {this.Overlays.Count} overlays");
                 foreach (var ov in this.Overlays)
                 {
-                    //  Console.WriteLine($"  - Drawing overlay with {(ov as VideoFrame.OverlayPolygon)?.Points.Count ?? 0} points");
                     ov.Paint(g, loc, rate);
                 }
             }
@@ -121,28 +119,24 @@ namespace DemoDWS
     public class VideoWindow : UserControl
     {
         private VideoFrame m_frame;
-        //private Image m_noFrameImage;
 
         public VideoFrame Frame
         {
             get { return m_frame; }
             set
             {
-                m_frame = value; this.Invalidate(); //Console.WriteLine("[UI] frame set"); }
+                m_frame = value; this.Invalidate();
             }
         }
-
         public new string Text
         {
             get { return base.Text; }
             set { base.Text = value; this.Invalidate(); }
         }
-
         public VideoWindow()
         {
             InitUI();
         }
-
         private void InitUI()
         {
             this.Margin = Padding.Empty;
@@ -150,7 +144,6 @@ namespace DemoDWS
             this.DoubleBuffered = true;
             this.BackColor = Color.FromKnownColor(KnownColor.Control);
         }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -163,11 +156,6 @@ namespace DemoDWS
                 m_frame.Paint(g, this.Size);
             }
 
-            // draw text
-            //if (this.Text.Length > 0)
-            //{
-            //    g.DrawString(this.Text, this.Font, Brushes.Black, 5, this.Height - 20);
-            //}
         }
     }
 

@@ -33,442 +33,92 @@ using System.Runtime.InteropServices;
 using System.Net;
 using System.Net.Sockets;
 
-
-
-
 namespace DemoDWS
 {
-
     public partial class Form1DWS : Form
     {
+        //==================================VARIABLES=====================================
+        #region VARIABLE
+        //Udp Broadcaaster for the bar code
         private UdpBroadcaster udpBroadcaster;
 
-        #region VARIABLE
+        private string default_text = "No detection";
+        //Image count
         private long _realImgCount = 0;
 
-        /// <summary>
-        /// Maximum limit for queues
-        /// </summary>
+        // Maximum limit for queues
         private const int MAXQUEUESIZE = 64;
-        /// <summary>
-        /// DWS management instance, providing DWS-related startup operations, stop operations, etc.
-        /// </summary>
+
+        // DWS management instance, providing DWS-related startup operations, stop operations, etc.
         private LogisticsWrapper dwsManager;
 
-        /// <summary>
-        /// The package information collection reported on the DWS base layer, including the package barcode, weight, volume, original picture, and page sheet picture
-        /// </summary>
+        // The package information collection reported on the DWS base layer, including the package barcode, original picture, and page sheet picture
         private Queue<BaseCodeData> packageItems = new Queue<BaseCodeData>();
 
-        /// <summary>
-        /// Threads that process package information, used to process package information collection reported by DWS underlying layer
-        /// </summary>
+        // Threads that process package information, used to process package information collection reported by DWS underlying layer
         private Thread processPackageThread;
 
-        /// <summary>
-        /// Is DWS running an identity? The value is true after starting DWS, and the value is false after closing DWS.
-        /// </summary>
+        // Is DWS running an identity? The value is true after starting DWS, and the value is false after closing DWS.
         private bool isRunningDWS = false;
 
-        /// <summary>
-        ///The real-time picture number of cameras is associated with containers, storing the number of real-time pictures of cameras
-        /// <summary>
-        private Dictionary<string, int> realImagecount = new Dictionary<string, int>();
-
-        /// <summary>
-        ///The associated container of camera key value and camera hardware information CameraInfos information
-        /// <summary>
+        //The associated container of camera key value and camera hardware information CameraInfos information
         private Dictionary<string, CameraInfo> camerInfoMap = new Dictionary<string, CameraInfo>();
 
-        /// <summary>
-        /// Component list
-        /// </summary>
+        // Component list
         private List<PlatformComponent> m_ComponentList = new List<PlatformComponent>();
 
         // Camera slot mapping (full key and a short token for robust matching)
         private string _leftKeyFull, _rightKeyFull;
-        private string _leftKeyToken, _rightKeyToken;
 
+        //Hold Barcode on screen for how long
         private int CodeHoldSeconds = 5;
-        // private bool ShowNoRead = true;
 
-
+        //Hold timer for left barcode on the UI
         private System.Windows.Forms.Timer _codeHoldTimerLeft;
+
+        //Hold timer for left barcode on the UI
         private System.Windows.Forms.Timer _codeHoldTimerRight;
+
+        //Package Count
+        private long _pkgCount = 0;
 
         #endregion  // VARIABLE
 
-        #region FUNC
-
+        //==================================FUNCTIONS=====================================
+        #region FUNCTION
+        //Constructor
         public Form1DWS()
         {
-
+            //Initialize the components used in Main gui window
             InitializeComponent();
 
-
+            //For the timers used for keeping the barcodes on the screen for a set amount of time
             _codeHoldTimerLeft = new System.Windows.Forms.Timer();
             _codeHoldTimerLeft.Interval = Math.Max(100, CodeHoldSeconds * 1000);
             _codeHoldTimerLeft.Tick += (s, e) =>
             {
-                // Clear (or keep a prefix if you like)
-                lblCode.Text = "noread";
+                lblCode.Text = default_text;
                 _codeHoldTimerLeft.Stop();
             };
-
             _codeHoldTimerRight = new System.Windows.Forms.Timer();
             _codeHoldTimerRight.Interval = Math.Max(100, CodeHoldSeconds * 1000);
             _codeHoldTimerRight.Tick += (s, e) =>
             {
-                label2.Text = "noread";
+                label2.Text = default_text;
                 _codeHoldTimerRight.Stop();
             };
-
-
 
             //Image display
             var m_imageDisplayArea = new ImageView();
             m_imageDisplayArea.Dock = DockStyle.Fill;
             Pan_Dis.Controls.Add(m_imageDisplayArea);
-
-            // Save the picture
-            var m_imageSaver = new ImageSaver();
-
             m_ComponentList.Add(m_imageDisplayArea);
-            m_ComponentList.Add(m_imageSaver);
 
+            //Broadcast Barcode
             udpBroadcaster = new UdpBroadcaster("192.168.18.255", 9000);
         }
 
-
-        /// <summary>
-        /// Get all camera information
-        /// </summary>
-        private void getAllCameraInfos()
-        {
-
-            LogHelper.Log.InfoFormat("[getAllCameraInfos]start getAllCameraInfos");
-
-            var cameraInfoList = dwsManager.GetWorkCameraInfo();
-            if (cameraInfoList != null)
-            {
-                LogHelper.Log.InfoFormat("The camera successfully obtains device information, the number of cameras {0}", cameraInfoList.Count());
-                var list = cameraInfoList.ToList();
-
-                int idx = 0;
-                foreach (var cameraInfo in cameraInfoList)
-                {
-                    if (cameraInfo == null)
-                    {
-                        idx++;
-                        continue;
-                    }
-
-                    var key = cameraInfo.camDevExtraInfo;
-                    if (string.IsNullOrWhiteSpace(key))
-                    {
-
-                    }
-
-                    if (!camerInfoMap.ContainsKey(key))
-                    {
-                        camerInfoMap.Add(key, cameraInfo);
-
-                    }
-                    else
-                    {
-
-                    }
-
-                    idx++;
-                }
-            }
-            else
-            {
-                LogHelper.Log.InfoFormat("The camera failed to obtain device information");
-            }
-
-            LogHelper.Log.InfoFormat("[getAllCameraInfos]end getAllCameraInfos");
-
-
-
-            var keys = camerInfoMap.Keys.ToList();
-            if (keys.Count >= 2)
-            {
-                var leftKey = keys[0];
-                var rightKey = keys[1];
-
-
-                var imgView = m_ComponentList.OfType<ImageView>().FirstOrDefault();
-                if (imgView != null)
-                {
-                    imgView.ConfigureCameraSlots(leftKey, rightKey);
-                    _leftKeyFull = leftKey;
-                    _rightKeyFull = rightKey;
-                    _leftKeyToken = ExtractToken(leftKey);
-                    _rightKeyToken = ExtractToken(rightKey);
-
-                    // (Optional) Initialize labels with prefixes
-                    lblCode.Text = "noread";
-                    label2.Text = "noread";
-
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Get all camera status
-        /// </summary>
-        private void getAllCameraStatus()
-        {
-            LogHelper.Log.InfoFormat("[getAllCameraStatus]start getAllCameraStatus");
-
-            var cameraInfoList = dwsManager.GetCamerasStatus();
-            if (cameraInfoList != null)
-            {
-                foreach (var cameraInfo in cameraInfoList)
-                {
-                    LogHelper.Log.InfoFormat("The camera is getting normal: device.Key：{0}， device.UserId：{1}， device.onlineState：{2}"
-                        , cameraInfo.key, cameraInfo.deviceUserID, cameraInfo.isOnline ? "Online" : "Offline");
-                }
-            }
-            else
-            {
-                LogHelper.Log.InfoFormat("The camera failed to obtain device information");
-            }
-
-            LogHelper.Log.InfoFormat("[getAllCameraStatus]end getAllCameraStatus");
-        }
-
-        private void LogTextOnUI(string text)
-        {
-            if (listBoxLog.InvokeRequired)
-            {
-                this.BeginInvoke((Action)(() =>
-                {
-                    LogTextOnUI(text);
-                }));
-                return;
-            }
-
-            listBoxLog.Items.Add(text);
-            listBoxLog.SelectedIndex = listBoxLog.Items.Count - 1;
-
-            if (listBoxLog.Items.Count > 200)
-            {
-                listBoxLog.Items.RemoveAt(0);
-            }
-        }
-        private long _pkgCount = 0;
-        //private long _pkgImgCount = 0;
-        /// <summary>
-        /// Specific methods for receiving package information reported by DWS
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
-        private void PackageInfoCallBack(object o, LogisticsCodeEventArgs e)
-        {
-            var n1 = Interlocked.Increment(ref _pkgCount);
-
-            try
-            {
-                VolumeInfo vv = new VolumeInfo
-                {
-                    Length = e.VolumeInfo.length,
-                    Width = e.VolumeInfo.width,
-                    Height = e.VolumeInfo.height,
-                    Volume = e.VolumeInfo.volume,
-                };
-
-                BaseCodeData info = new BaseCodeData
-                {
-                    OutputResult = e.OutputResult,
-                    CameraID = e.CameraID,
-                    CodeList = e.CodeList,
-                    AreaList = e.AreaList,
-                    Weight = e.Weight,
-                    VolumeInfo = vv,
-                    OriImage = e.OriginalImage,
-                    WayImage = e.WaybillImage,
-                    CodeTimeStamp = e.CodeTimeStamp,
-                    CodesInfo = e.CodesInfo,
-                    BagTimeInfo = new TimeInfo
-                    {
-                        TimeCallback = e.Bag_TimeInfo.timeCallback,
-                        TimeCodeParse = e.Bag_TimeInfo.timeCodeParse,
-                        TimeCollect = e.Bag_TimeInfo.timeCollect,
-                        TimeDown = e.Bag_TimeInfo.timeDown,
-                        TimeFrameGet = e.Bag_TimeInfo.timeFrameGet,
-                        TimeFrameSend = e.Bag_TimeInfo.timeFrameSend,
-                        TimeUp = e.Bag_TimeInfo.timeUp,
-                        TimVol = e.Bag_TimeInfo.timVol,
-                        TimWeight = e.Bag_TimeInfo.timWeight
-                    },
-                    WeightInfo = new WeightData
-                    {
-                        Flag = e.WeightData.flag,
-                        OrigData = e.WeightData.origData,
-                        Weight = e.WeightData.weight,
-                        WeightTimeStamp = e.WeightData.weightTimeStamp
-                    },
-                };
-
-                // Simple barcode detection check
-                string codes = string.Join(",", info.CodeList ?? new List<string>());
-                if (codes != "noread" && !string.IsNullOrEmpty(codes))
-                {
-
-
-                    // Broadcast the barcode and camera IP
-                    udpBroadcaster.SendBarcode(codes, info.CameraID);
-
-                    LogTextOnUI($"{DateTime.Now:HH:mm:ss} - Barcode detected: {codes}");
-                }
-                else
-                {
-                    // Only print occasionally to avoid spam
-                    if (_pkgCount % 10 == 0)
-                    {
-                        //Console.WriteLine($"NOT DETECTED (attempt #{_pkgCount})");
-                    }
-                }
-
-                lock (packageItems)
-                {
-                    // Control the maximum number of queues
-                    if (packageItems.Count < MAXQUEUESIZE)
-                    {
-                        packageItems.Enqueue(info);
-                    }
-                    else
-                    {
-                        LogHelper.Log.Error("packageItems lose data");
-                    }
-                }
-
-                //     if (e.OutputResult != 0)
-                //     {
-                //         if (camerInfoMap.ContainsKey(info.CameraID))
-                //         {
-                //             int i = 0;
-                //             CameraInfo cameraInfo = camerInfoMap[info.CameraID];
-
-                //             LogHelper.Log.InfoFormat("[test cameraInfo]Camera{0} device information device.camDevID：{1}， device.camDevModelName：{2}， device.camDevSerialNumber：{3}, device.camDevVendor：{4}， device.camDevFirewareVersion：{5}， device.camDevExtraInfo：{6}"
-                //                , i, cameraInfo.camDevID, cameraInfo.camDevModelName, cameraInfo.camDevSerialNumber, cameraInfo.camDevVendor, cameraInfo.camDevFirewareVersion, cameraInfo.camDevExtraInfo);
-                //         }
-                //     }
-
-                //     //Name barcode information according to orientation, barcode type, barcode content ---The second way to print barcode
-                //     {
-                //         string codeInfo = Utils.AppendString1(e.CodesInfo);
-                //         LogHelper.Log.InfoFormat("[testlog][allCodeInfo]curretn code size:{0} , info is {1}", e.CodesInfo.Length, codeInfo);
-                //     }
-
-
-                // }
-                // catch (Exception ex)
-                // {
-                //     LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
-                // }
-                if (e.OutputResult == 0)
-                {
-                    //Console.WriteLine($"[BARCODE ONLY] Camera '{e.CameraID}': {codes}");
-
-                    // Update UI for barcode-only results too
-                    UpdateCameraLabels(info.CameraID, info.CodeList);
-
-                    // Send to display components
-                    foreach (var comp in m_ComponentList)
-                    {
-                        comp.OnPacketResultReached(this, info);
-                    }
-                }
-
-                // Add to queue for both results
-                lock (packageItems)
-                {
-                    if (packageItems.Count < MAXQUEUESIZE)
-                    {
-                        packageItems.Enqueue(info);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[PackageInfo] Error: {ex.Message}");
-                LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
-            }
-        }
-        private void Form1DWS_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            udpBroadcaster.Close();
-        }
-        private static string ExtractToken(string key)
-        {
-            if (string.IsNullOrEmpty(key)) return key;
-            var parts = key.Split(':');
-            return parts.Length > 1 ? parts[parts.Length - 1].Trim() : key.Trim();
-        }
-
-        private bool IsLeftCamera(string key)
-        {
-            if (string.IsNullOrEmpty(key)) return false;
-            return (!string.IsNullOrEmpty(_leftKeyFull) && key == _leftKeyFull)
-                || (!string.IsNullOrEmpty(_leftKeyToken) && key.Contains(_leftKeyToken));
-        }
-
-        private bool IsRightCamera(string key)
-        {
-            if (string.IsNullOrEmpty(key)) return false;
-            return (!string.IsNullOrEmpty(_rightKeyFull) && key == _rightKeyFull)
-                || (!string.IsNullOrEmpty(_rightKeyToken) && key.Contains(_rightKeyToken));
-        }
-
-        private void SetLeftLabel(string codeText)
-        {
-            if (this.IsDisposed) return;
-            this.BeginInvoke(new Action(() =>
-            {
-                lblCode.Text = codeText;
-                _codeHoldTimerLeft.Stop();
-                _codeHoldTimerLeft.Interval = Math.Max(100, CodeHoldSeconds * 1000);
-                _codeHoldTimerLeft.Start();
-            }));
-        }
-
-        private void SetRightLabel(string codeText)
-        {
-            if (this.IsDisposed) return;
-            this.BeginInvoke(new Action(() =>
-            {
-                label2.Text = codeText;
-                _codeHoldTimerRight.Stop();
-                _codeHoldTimerRight.Interval = Math.Max(100, CodeHoldSeconds * 1000);
-                _codeHoldTimerRight.Start();
-            }));
-        }
-
-        private void UpdateCameraLabels(string cameraKey, IList<string> codes)
-        {
-            if (codes == null || codes.Count == 0) return;
-
-            // Join codes (you can customize formatting)
-            string codeJoint = string.Join(",", codes);
-
-            // Ignore explicit noread
-            if (string.Equals(codeJoint, "noread", StringComparison.OrdinalIgnoreCase))
-                return;
-
-            if (IsLeftCamera(cameraKey))
-                SetLeftLabel(codeJoint);
-            else if (IsRightCamera(cameraKey))
-                SetRightLabel(codeJoint);
-            // else: unknown camera; no label update
-        }
-
-        /// <summary>
-        /// Specific methods for processing package information, such as displaying barcode information, original image, cutout, weight, volume
-        /// </summary>
+        // (Main Loop) Specific methods for processing package information, such as displaying barcode information, original image, cutout etc.
         private void ProcessPackage()
         {
             while (isRunningDWS)
@@ -496,7 +146,7 @@ namespace DemoDWS
                     if (e.OutputResult == 0)
                     {
                         //Processing the barcode information of the package
-                        LogHelper.Log.InfoFormat("Processing parcel information [barcode only]： {0}", string.Join("_", e.CodeList));
+                        // LogHelper.Log.InfoFormat("Processing parcel information [barcode only]： {0}", string.Join("_", e.CodeList));
                         foreach (var comp in m_ComponentList)
                         {
                             comp.OnPacketResultReached(this, e);
@@ -504,15 +154,12 @@ namespace DemoDWS
                     }
                     else if (e.OutputResult == 1)
                     {
-                        // Console.WriteLine($"[UI DEBUG] Updating labels with:");
-                        //Console.WriteLine($"  - Barcode text: '{codeJoint}'");
-                        //Console.WriteLine($"  - Code count: {e.CodeList.Count}");
                         //Display barcode information
                         this.BeginInvoke(new Action(() =>
                         {
+                            //Print the code on the GUI
                             UpdateCameraLabels(e.CameraID, e.CodeList);
-                            //lblCodeCount.Text = string.Format("Number of barcodes: {0} Weight: {1} g Length: {2} mm Width: {3} mm Height: {4} mm, Volume: {5} mm3", e.CodeList.Count, e.Weight, e.VolumeInfo.Length, e.VolumeInfo.Width, e.VolumeInfo.Height, e.VolumeInfo.Volume);
-                            //Console.WriteLine($"[UI DEBUG] Labels updated successfully");
+
                         }));
 
                         foreach (var comp in m_ComponentList)
@@ -520,240 +167,269 @@ namespace DemoDWS
                             comp.OnPacketResultReached(this, e);
                         }
 
-                        //Process the barcode, weight, volume information of the package
-                        LogHelper.Log.InfoFormat("Processing parcel information [barcode weight volume]]： {0}", codeJoint);
+                        //Process the barcode information of the package
+                        LogHelper.Log.InfoFormat("Processing parcel information [barcode]]： {0}", codeJoint);
 
-
-                        var height = Math.Round(e.VolumeInfo.Height, 2);
-                        var width = Math.Round(e.VolumeInfo.Width, 2);
-                        var length = Math.Round(e.VolumeInfo.Length, 2);
-                        var volume = Math.Round(e.VolumeInfo.Volume, 2);
-
-                        //Inclination angle, angle between the long side of the object and the direction of movement
-                        //float angle = e.VolumeInfo.slantAngle;
-
-                        //Point coordinates
-                        //var x0 = e.VolumeInfo.vertices[0].x;
-
-                        this.BeginInvoke(new Action(() =>
-                        {
-                            //Display barcode information
-                            LogTextOnUI(DateTime.Now.ToLongTimeString() + " Received parcel information");
-                            LogTextOnUI("Barcode " + codeJoint);
-                            LogTextOnUI("weight " + e.Weight + "gram");
-                            LogTextOnUI("volume " + volume + "Cubic millimeters");
-                            LogTextOnUI("length " + length + "mm");
-                            LogTextOnUI("width " + width + "mm");
-                            LogTextOnUI("high" + height + "mm");
-                        }));
                     }
                 }
                 catch (Exception ee)
                 {
                     LogHelper.Log.Error("ProcessPackage internal loop exception", ee);
                 }
-
                 Thread.Sleep(10);
             }
         }
 
-        #endregion  // FUNC
-
-        #region CALLBACK
-
-        /// <summary>
-        /// 相机断线回调
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="cameraKey"></param>
-        private void CameraDisconnectCallBack(object o, CameraStatusArgs status)
+        // Get all camera information
+        private void getAllCameraInfos()
         {
-            LogHelper.Log.ErrorFormat("Camera Status Update Key: {0} UserID: {1} Status: {2}", status.CameraKey, status.CameraUserID, status.IsOnline ? "在线" : "离线");
-            LogHelper.Log.ErrorFormat("cameraStatus.IsOnline = {0} ", status.IsOnline);
+            // Get list of all working cameras from the DWS SDK
+            var cameraInfoList = dwsManager.GetWorkCameraInfo();
+
+            // Check if we successfully got camera information
+            if (cameraInfoList != null)
+            {
+                // Loop through each camera in the list
+                foreach (var cameraInfo in cameraInfoList)
+                {
+                    // Skip any null camera entries (safety check)
+                    if (cameraInfo == null) { continue; }
+
+                    // Get the unique identifier for this camera
+                    var key = cameraInfo.camDevExtraInfo;
+
+                    // Skip cameras without a valid identifier
+                    if (string.IsNullOrWhiteSpace(key)) continue;
+
+                    // Add camera to our dictionary if it's not already there Dictionary prevents duplicate cameras
+                    if (!camerInfoMap.ContainsKey(key))
+                    { camerInfoMap.Add(key, cameraInfo); }
+                }
+            }
+            else
+            {
+                LogHelper.Log.InfoFormat("The camera failed to obtain device information");
+            }
+
+            // Configure the image display with the first two cameras found
+            var keys = camerInfoMap.Keys.ToList();
+            // We need at least 2 cameras for left/right display
+            if (keys.Count == 2)
+            {
+                // Assign cameras to displays
+                var leftKey = keys[0];
+                var rightKey = keys[1];
+
+                // Find the ImageView component in our component list
+                var imgView = m_ComponentList.OfType<ImageView>().FirstOrDefault();
+                if (imgView != null)
+                {
+                    // Tell ImageView which camera goes to which display slot
+                    imgView.ConfigureCameraSlots(leftKey, rightKey);
+
+                    // Store full camera keys for later use
+                    _leftKeyFull = leftKey;
+                    _rightKeyFull = rightKey;
+
+                    //Initialize labels with prefixes
+                    lblCode.Text = default_text;
+                    label2.Text = default_text;
+                }
+            }
         }
 
-        /// <summary>
-        /// Callback of all camera scan code information after the package is completed
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="infoArgs"></param>
-        private void AllCameraCodeInfoCBCallBack(object o, AllCameraCodeInfoArgs infoArgs)
+        //Show text on the gui
+        public void LogTextOnUI(string text)
         {
-
-            foreach (var codeData in infoArgs.SingleCameraCodeInfoList)
+            if (listBoxLog.InvokeRequired)
             {
-                bool isSmartCamera = codeData.Key.Contains("7F0210EPAK00040");
-
-                Console.WriteLine($"\n[AllCamera] Camera: {codeData.Key}");
-                Console.WriteLine($"  Is Smart Camera: {isSmartCamera}");
-                Console.WriteLine($"  Code Count: {codeData.CodeList.Count}");
-                //Console.WriteLine($"[AllCameraCodeInfo] Camera: '{codeData.Key}'");
-                //Console.WriteLine($"  - Codes found: {codeData.CodeList.Count}");
-                if (codeData.CodeList.Count > 0)
+                this.BeginInvoke((Action)(() =>
                 {
-                    foreach (var code in codeData.CodeList)
+                    LogTextOnUI(text);
+                }));
+                return;
+            }
+
+            listBoxLog.Items.Add(text);
+            listBoxLog.SelectedIndex = listBoxLog.Items.Count - 1;
+
+            if (listBoxLog.Items.Count > 200)
+            {
+                listBoxLog.Items.RemoveAt(0);
+            }
+        }
+
+        // Get all camera status
+        private void getAllCameraStatus()
+        {
+            // Get current status of all cameras from DWS SDK
+            var cameraInfoList = dwsManager.GetCamerasStatus();
+            if (cameraInfoList != null)
+            {
+                // Loop through each camera's status
+                foreach (var cameraInfo in cameraInfoList)
+                {
+                    //Logs Device key, device userid and whether it is online or not
+                    LogTextOnUI(string.Format("The camera: device.Key：{0}， device.UserId：{1}， device.onlineState：{2}"
+                        , cameraInfo.key, cameraInfo.deviceUserID, cameraInfo.isOnline ? "Online" : "Offline"));
+                }
+            }
+        }
+
+        //Check if Camera is left Camera using the key
+        private bool IsLeftCamera(string key)
+        {
+            if (string.IsNullOrEmpty(key)) return false;
+            return !string.IsNullOrEmpty(_leftKeyFull) && key == _leftKeyFull;
+        }
+
+        //Check if Camera is right Camera
+        private bool IsRightCamera(string key)
+        {
+            if (string.IsNullOrEmpty(key)) return false;
+            return !string.IsNullOrEmpty(_rightKeyFull) && key == _rightKeyFull;
+        }
+
+        //Set the Left Label
+        private void SetLeftLabel(string codeText)
+        {
+            if (this.IsDisposed) return;
+            this.BeginInvoke(new Action(() =>
+            {
+                lblCode.Text = codeText;
+                _codeHoldTimerLeft.Stop();
+                _codeHoldTimerLeft.Interval = Math.Max(100, CodeHoldSeconds * 1000);
+                _codeHoldTimerLeft.Start();
+            }));
+        }
+        //Set right label
+        private void SetRightLabel(string codeText)
+        {
+            if (this.IsDisposed) return;
+            this.BeginInvoke(new Action(() =>
+            {
+                label2.Text = codeText;
+                _codeHoldTimerRight.Stop();
+                _codeHoldTimerRight.Interval = Math.Max(100, CodeHoldSeconds * 1000);
+                _codeHoldTimerRight.Start();
+            }));
+        }
+
+        //Update the labels (barcodes) shown in GUI
+        private void UpdateCameraLabels(string cameraKey, IList<string> codes)
+        {
+            if (codes == null || codes.Count == 0) return;
+
+            // Join codes (you can customize formatting)
+            string codeJoint = string.Join(",", codes);
+
+            // Ignore explicit noread
+            if (string.Equals(codeJoint, "noread", StringComparison.OrdinalIgnoreCase))
+                return;
+
+            //This is what shows the barcode on the GUI
+            if (IsLeftCamera(cameraKey))
+                SetLeftLabel(codeJoint);
+            else if (IsRightCamera(cameraKey))
+                SetRightLabel(codeJoint);
+        }
+
+
+
+        #endregion  // FUNC
+
+        //==================================CALLBACKS=====================================
+        #region CALLBACK
+        // Specific methods for receiving package information reported by DWS
+        private void PackageInfoCallBack(object o, LogisticsCodeEventArgs e)
+        {
+            try
+            {
+                BaseCodeData info = new BaseCodeData
+                {
+                    OutputResult = e.OutputResult,
+                    CameraID = e.CameraID,
+                    CodeList = e.CodeList,
+                    AreaList = e.AreaList,
+
+                    OriImage = e.OriginalImage,
+                };
+
+                // Simple barcode detection check
+                string codes = string.Join(",", info.CodeList ?? new List<string>());
+
+                if (codes != default_text && !string.IsNullOrEmpty(codes))
+                {
+                    // Broadcast the barcode and camera IP
+                    udpBroadcaster.SendBarcode(codes, info.CameraID);
+
+                    //Used for logging bar code in the log on GUI if not needed than delete this if statement
+                    if (codes != "noread")
                     {
-                        Console.WriteLine($"  Code: '{code}'");
-                        UpdateCameraLabels(codeData.Key, codeData.CodeList);
-
-
-                        // Check if it's actually "noread"
-                        if (code.ToLower() == "noread" && isSmartCamera)
+                        if (IsLeftCamera(info.CameraID))
                         {
-                            Console.WriteLine("  >> SMART CAMERA ISSUE: Returning 'noread'");
-                            Console.WriteLine("  >> Check: Is barcode visible to camera?");
-                            Console.WriteLine("  >> Check: Is smart camera in correct mode?");
-                            Console.WriteLine("  >> Check: Smart camera internal settings");
+                            LogTextOnUI($"{DateTime.Now:HH:mm:ss} - Camera 1 Barcode: {codes}");
+                        }
+                        else
+                        {
+                            LogTextOnUI($"{DateTime.Now:HH:mm:ss} - Camera 2 Barcode: {codes}");
                         }
                     }
                 }
 
-                // Log image info
-                if (codeData.OriginalImage.ImageData != IntPtr.Zero)
+                lock (packageItems)
                 {
-                    Console.WriteLine($"  Image: {codeData.OriginalImage.width}x{codeData.OriginalImage.height}");
-                }
-                // Check if image data exists (VslbImage type)
-                bool hasImage = codeData.OriginalImage.ImageData != IntPtr.Zero && codeData.OriginalImage.dataSize > 0;
-                //Console.WriteLine($"  - Has image: {(hasImage ? "YES" : "NO")}");
-
-                if (hasImage)
-                {
-                    //Console.WriteLine($"  - Image size: {codeData.OriginalImage.width}x{codeData.OriginalImage.height}");
-                    //Console.WriteLine($"  - Image data size: {codeData.OriginalImage.dataSize} bytes");
-
-                    // Check if this is our industrial camera
-                    if (codeData.Key.Contains("CL00212JBY00049") || codeData.Key.Contains("AB3600MG000"))
+                    // Control the maximum number of queues
+                    if (packageItems.Count < MAXQUEUESIZE)
                     {
-                        //Console.WriteLine("  - *** THIS IS THE INDUSTRIAL CAMERA! ***");
-                    }
-
-                    // Convert VslbImage to RawImage for display
-                    RawImage rawImage = codeData.OriginalImage;  // Uses implicit conversion
-
-                    // Send to ImageView for display
-                    foreach (var comp in m_ComponentList)
-                    {
-                        var pkg = new BaseCodeData
-                        {
-                            OutputResult = 1,
-                            OriImage = rawImage,
-                            AreaList = null,
-                            CodeList = codeData.CodeList,
-                            CameraID = codeData.Key,
-                            CodeTimeStamp = codeData.CodeTimeStamp
-                        };
-                        comp.OnPacketResultReached(this, pkg);
-                    }
-                }
-                else
-                {
-                    //Console.WriteLine($"  - No image data from camera '{codeData.Key}'");
-                }
-            }
-        }
-        private void DiagnoseCameraCapabilities()
-        {
-            Console.WriteLine("\n=== CAMERA CAPABILITY DIAGNOSTICS ===");
-
-            // Check camera types based on your configuration
-            var workCameras = dwsManager.GetWorkCameraInfo();
-            if (workCameras != null)
-            {
-                foreach (var cam in workCameras)
-                {
-                    bool isSmartCamera = cam.camDevExtraInfo.Contains("7F0210EPAK00040");
-                    string cameraType = isSmartCamera ? "SMART" : "INDUSTRIAL";
-
-                    Console.WriteLine($"Camera: {cam.camDevExtraInfo}");
-                    Console.WriteLine($"  Type: {cameraType}");
-                    Console.WriteLine($"  Expected behavior:");
-
-                    if (isSmartCamera)
-                    {
-                        Console.WriteLine("    - Internal barcode processing");
-                        Console.WriteLine("    - Direct barcode output");
-                        Console.WriteLine("    - Should NOT use BarCode algorithm");
+                        packageItems.Enqueue(info);
                     }
                     else
                     {
-                        Console.WriteLine("    - Requires BarCode algorithm");
-                        Console.WriteLine("    - SDK processes images for barcodes");
+                        LogHelper.Log.Error("packageItems lose data");
+                    }
+                }
+
+                if (e.OutputResult == 0)
+                {
+                    // Update UI for barcode-only results too
+                    UpdateCameraLabels(info.CameraID, info.CodeList);
+
+                    // Send to display components
+                    foreach (var comp in m_ComponentList)
+                    {
+                        comp.OnPacketResultReached(this, info);
+                    }
+                }
+
+                // Add to queue for both results
+                lock (packageItems)
+                {
+                    if (packageItems.Count < MAXQUEUESIZE)
+                    {
+                        packageItems.Enqueue(info);
                     }
                 }
             }
-
-            Console.WriteLine("=== END DIAGNOSTICS ===\n");
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("Execute PackageInfoCallBack exception", ex);
+            }
         }
-        /// <summary>
-        ///After the package is finished, Ipc camera and barcode puzzle information callback
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="infoArgs"></param>
-        private void IpcCombineInfoCBCallBack(object o, IpcCombineInfoArgs infoArgs)
+
+        // Camera disconnection callback
+        private void CameraDisconnectCallBack(object o, CameraStatusArgs status)
         {
-            foreach (var comp in m_ComponentList)
-            {
-                comp.OnPanoramaReached(this, infoArgs);
-            }
+            LogHelper.Log.ErrorFormat("Camera Status Update Key: {0} UserID: {1} Status: {2}", status.CameraKey, status.CameraUserID, status.IsOnline ? "Online" : "Offline");
+            LogHelper.Log.ErrorFormat("cameraStatus.IsOnline = {0} ", status.IsOnline);
         }
 
-        /// <summary>
-        /// Real-time camera image information callback
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="infoArgs"></param>
-        private void RealImageCBCallBack(object o, RealImageArgs infoArgs)
-        {
-            var n = Interlocked.Increment(ref _realImgCount);
-            if (n % 30 == 0)
-            { // Only log every 30th frame
-                Console.WriteLine($"[RealImage] Frame #{n} from {infoArgs.cameraIp}");
-            }
-
-            // Check if this is our industrial camera
-            if (infoArgs.cameraIp.Contains("CL00212JBY00049") || infoArgs.cameraIp.Contains("AB3600MG000"))
-            {
-                //Console.WriteLine("[RealImage] *** INDUSTRIAL CAMERA IMAGE RECEIVED! ***");
-            }
-
-
-            if (infoArgs.realImage.ImageData == IntPtr.Zero)
-            {
-                //Console.WriteLine($"[RealImage] ERROR: ImageData is empty from camera '{infoArgs.cameraIp}'");
-                return;
-            }
-
-
-            // Build a "fake" package that contains just an original frame.
-            var pkg = new BaseCodeData
-            {
-                OutputResult = 0,
-                OriImage = infoArgs.realImage,
-                AreaList = null,
-                CodeList = new List<string>(),
-                CameraID = infoArgs.cameraIp,
-                CodeTimeStamp = 0
-            };
-
-
-
-
-            //Console.WriteLine($"[RealImage] Sending image from camera '{pkg.CameraID}' to display components");
-
-            foreach (var comp in m_ComponentList)
-            {
-                comp.OnPacketResultReached(this, pkg);
-            }
-        }
         #endregion  // CALLBACK
 
+        //==================================EVENTS========================================
         #region EVENT
-        /// <summary>
+
         /// Start DWS
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             var retStr = "";
@@ -766,7 +442,7 @@ namespace DemoDWS
             dwsManager = LogisticsBaseCSharp.LogisticsWrapper.Instance;
 
             int status = dwsManager.Initialization(".\\Cfg\\LogisticsBase.cfg");
-            //Console.WriteLine($"Init status={status}  ({ErrorInfo.GetErrorMessage(status)})");  // shows if cfg loaded OK
+
             if (status != (int)EAppRunStatus.eAppStatusInitOK)
             {
                 retStr = ErrorInfo.GetErrorMessage(status);
@@ -779,32 +455,25 @@ namespace DemoDWS
             //Enable the camera disconnection reporting function on the underlying DWS
             dwsManager.AttachCameraDisconnectCB();
 
-            //Turn on the callback function that registers all camera code reading information
             //Enable the callback function that registers all camera code reading information
             bool b = dwsManager.AttachAllCameraCodeinfoCB();
-            if (!b)
-            {
-                //Console.WriteLine("[STARTUP] WARNING: Failed to attach AllCameraCodeInfo callback!");
-            }
 
             //Open the callback function for registering panoramic camera and barcode cutout splicing image information
             bool c = dwsManager.AttachIpcCombineInfoCB();
 
-
             //Open the callback function for registering the camera's real-time picture information
             bool d = dwsManager.AttachRealImageCB();
-
-            //MessageBox.Show(b.ToString());
 
             //Register the method of camera disconnection callback. When the camera in the DWS device is disconnected, the relevant camera information will be called back to the CameraDisconnectCallBack method.
             dwsManager.CameraDisconnectEventHandler += CameraDisconnectCallBack;
 
             status = dwsManager.Start();//Make judgments on the return value uploaded from the bottom layer and pop up the corresponding pop-up box
-            //Console.WriteLine($"Start status={status}  ({ErrorInfo.GetErrorMessage(status)})"); // shows if SDK actually started
+
             retStr = ErrorInfo.GetErrorMessage(status);
-            LogTextOnUI("dwsManager.Start ret val:{" + status + "},ret info:");
-            LogTextOnUI("{" + retStr + " }" + "\r\n");
-            LogTextOnUI("\r\n");
+
+            // LogTextOnUI("dwsManager.Start ret val:{" + status + "},ret info:");
+            // LogTextOnUI("{" + retStr + " }" + "\r\n");
+            // LogTextOnUI("\r\n");
 
             LogHelper.Log.InfoFormat("[ dwsManager.Start ret val:{0},ret info:{1}.\n", status, retStr);
 
@@ -812,17 +481,6 @@ namespace DemoDWS
             {
                 //Register package information callback method. When the DWS device scans the package information, it will callback to the PackageInfoCallBack method.
                 dwsManager.CodeHandle += PackageInfoCallBack;
-                //Register the method of camera disconnection callback. When the camera in the DWS device is disconnected, the relevant camera information will be called back to the CameraDisconnectCallBack method.
-                //dwsManager.CameraDisconnectEventHandler += CameraDisconnectCallBack;
-
-                //Scan the code information of all cameras after the registration package is completed
-                dwsManager.AllCameraCodeInfoEventHandler += AllCameraCodeInfoCBCallBack;
-
-                //Ipc camera and barcode puzzle information after registration package ends
-                dwsManager.IpcCombineInfoEventHandler += IpcCombineInfoCBCallBack;
-
-                //Register camera real-time picture information
-                dwsManager.RealImageEventHandler += RealImageCBCallBack;
 
             }
             else
@@ -869,26 +527,20 @@ namespace DemoDWS
             processPackageThread.IsBackground = true;
             processPackageThread.Start();
 
-            LogTextOnUI(DateTime.Now.ToLongTimeString() + " Successfully started DWS");
+            LogTextOnUI(DateTime.Now.ToLongTimeString() + " Successfully started BarCode Reading");
 
             //Get all camera device information
             getAllCameraInfos();
-            DiagnoseCameraCapabilities();
             getAllCameraStatus();
-
-
         }
 
-        /// <summary>
-        /// 关闭DWS
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+        /// Close DWS
         private void btnClose_Click(object sender, EventArgs e)
         {
             if (isRunningDWS == false)
             {
-                LogTextOnUI(DateTime.Now.ToLongTimeString() + " DWS has been shut down successfully, no need to close it again");
+                LogTextOnUI(DateTime.Now.ToLongTimeString() + " Scanner has been shut down successfully, no need to close it again");
                 return;
             }
 
@@ -919,15 +571,6 @@ namespace DemoDWS
             //Unregister the method of unregistering the camera's disconnection callback.
             dwsManager.CameraDisconnectEventHandler -= CameraDisconnectCallBack;
 
-            //Cancel the code scan information of all cameras after the package is completed
-            dwsManager.AllCameraCodeInfoEventHandler -= AllCameraCodeInfoCBCallBack;
-
-            //After the package is cancelled, the Ipc camera and barcode puzzle information is completed.
-            dwsManager.IpcCombineInfoEventHandler -= IpcCombineInfoCBCallBack;
-
-            //Unregister the camera's real-time picture information
-            dwsManager.RealImageEventHandler -= RealImageCBCallBack;
-
             foreach (var comp in m_ComponentList)
             {
                 comp.Uninit();
@@ -941,91 +584,27 @@ namespace DemoDWS
                 return;
             }
 
-            LogTextOnUI(DateTime.Now.ToLongTimeString() + " 关闭DWS成功");
+            LogTextOnUI(DateTime.Now.ToLongTimeString() + " Scanner shutdown succeeded");
+
+            //udp Close
+            udpBroadcaster.udpClose();
         }
 
 
-        /// <summary>
-        /// View the configuration file of the underlying SDK
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSetParam_Click(object sender, EventArgs e)
-        {
-            if (isRunningDWS == true)
-            {
-                return;
-            }
-
-            Process.Start(@".\Cfg\LogisticsBase.cfg");
-        }
-
-        /// <summary>
-        /// View client logs
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCSLog_Click(object sender, EventArgs e)
-        {
-            Process.Start("explorer.exe", @".\CSLog");
-        }
-
-        /// <summary>
-        /// View the underlying SDK log
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// View the underlying SDK log (turn on if you need it)
         private void btnLog_Click(object sender, EventArgs e)
         {
             Process.Start("explorer.exe", @".\Log");
-        }
-
-        /// <summary>
-        /// Clear the historical barcode list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnClearCodeList_Click(object sender, EventArgs e)
-        {
-            listBoxLog.Items.Clear();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (isRunningDWS == true)
-            {
-                //Console.WriteLine("=== MANUAL TRIGGER PRESSED ===");
-                //Console.WriteLine("Triggering both cameras...");
-
-                int status = dwsManager.CameraSoftTrigger();//Execute a single soft trigger
-                if (0 == status)
-                {
-                    //Console.WriteLine("Soft trigger executed successfully");
-                    LogTextOnUI(DateTime.Now.ToLongTimeString() + " Soft trigger execution succeeded");
-                }
-                else
-                {
-                    //Console.WriteLine($"Soft trigger failed with status: {status}");
-                    LogTextOnUI(DateTime.Now.ToLongTimeString() + " Execution soft trigger failed");
-                    LogTextOnUI("\r\n");
-                }
-
-                //Console.WriteLine("=== TRIGGER COMPLETE ===");
-            }
-            else
-            {
-                LogTextOnUI(DateTime.Now.ToLongTimeString() + " The soft trigger failed, please start the DWS software first");
-                LogTextOnUI("\r\n");
-            }
         }
 
         private void MainForm_Closing(object sender, EventArgs e)
         {
             this.btnClose_Click(this, new EventArgs());
         }
-
         #endregion  // EVENT
 
+        //==================================UICOMPONENTS==================================
+        #region UICOMPONTNENTS
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -1045,14 +624,17 @@ namespace DemoDWS
         {
 
         }
+        #endregion  // EVENT
 
     }
+    //UDP broadcaster class
     public class UdpBroadcaster
     {
         private UdpClient udpClient;
         private string broadcastIp;
         private int port;
 
+        //Constructor
         public UdpBroadcaster(string broadcastIp, int port)
         {
             this.broadcastIp = broadcastIp;
@@ -1073,7 +655,7 @@ namespace DemoDWS
         }
 
         // Close the UDP client
-        public void Close()
+        public void udpClose()
         {
             udpClient.Close();
         }

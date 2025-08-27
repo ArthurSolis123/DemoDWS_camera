@@ -10,9 +10,8 @@ namespace DemoDWS
     static class Program
     {
 
-        /// <summary>
-        /// 应用程序的主入口点。
-        /// </summary>
+
+        /// The main entry point of the application.
         [STAThread]
         static void Main()
         {
@@ -20,7 +19,7 @@ namespace DemoDWS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //初始化日志相关的函数
+            //Initialize log-related functions
             FileInfo fileInfo = new FileInfo(Environment.CurrentDirectory + "\\log.config");
             log4net.Config.XmlConfigurator.Configure(fileInfo);
 
